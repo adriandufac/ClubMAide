@@ -1,17 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Gérer les villes{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/gestionVille.css') }}">{% endblock %}
 
 
 {% block body %}
     <h2 style="text-align: center">Gérer les villes</h2>
-    <table>
-       <tbody>
-        <tr style="display: flex; justify-content: space-around">
-            <td>Ville</td>
-            <td>Code postal</td>
-            <td>Actions</td>
-        </tr>
-       </tbody>
-    </table>
+        <div id="container">
+            <div id="villes">
+                <h2>Villes</h2>
+                {% for ville in villes %}
+                    <p>{{ ville.nom }}</p>
+                {% endfor %}
+            </div>
+
+            <div id="cp">
+                <h2>Code Postal</h2>
+                {% for ville in villes %}
+                    <p>{{ ville.codepostal }}</p>
+                {% endfor %}
+            </div>
+            <div id="actions">
+                <h2>Actions</h2>
+                {% for ville in villes %}
+                    <p><a href="">modifier</a> - <a href="">supprimer</a></p>
+                {% endfor %}
+            </div>
+
+
+        </div>
 {% endblock %}
