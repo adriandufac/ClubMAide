@@ -1,3 +1,8 @@
+*{
+    font-family: 'Poppins', sans-serif;
+
+}
+
 header ul>li:after{
     content: "";
     display: block;
@@ -44,7 +49,6 @@ header ul li a{
 header h1{
     font-size: 2.5em;
     color: #0c0c0c;
-    text-shadow: 2px 2px 5px#2b7173;
     letter-spacing: 1px;
 }
 
@@ -52,4 +56,40 @@ main{
     display: flex;
     flex-direction: column;
     margin-top: 100px;
+}
+
+@keyframes rgb {
+    0% {
+        color: #ff0000;
+    }
+    10% {
+        color: #ff9a00;
+    }
+    20% {
+        color: #d0de21;
+    }
+    30% {
+        color: #4fdc4a;
+    }
+    40% {
+        color: #3fdad8;
+    }
+    50% {
+        color: #2fc9e2;
+    }
+    60% {
+        color: #1c7fee;
+    }
+    70% {
+        color: #5f15f2;
+    }
+    80% {
+        color: #ba0cf8;
+    }
+    90% {
+        color: #fb07d9;
+    }
+    100% {
+        color: #ff0000;
+    }
 }
