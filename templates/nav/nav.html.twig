@@ -2,21 +2,18 @@
     <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
 {% endblock %}
 
-<div class="navbar flex flex-row justify-between w-full h-20 border-b-2 border-b-black ">
-    <div class="left-nav">
-        <h1 class="lg:text-2xl font-mono">Sortir.com</h1>
-    </div>
-    <div class="right-nav">
-        <ul class="flex align-items-center justify-between gap-5">
-            {% if app.user %}
-            <li><a href="#" class="list-none lg:text-xl">Accueil</a></li>
-            <li><a href="#" class="list-none lg:text-xl">Mon profil</a></li>
-            <li><a href="#" class="list-none lg:text-xl">Se déconnecter</a></li>
-            {% endif %}
-            {% if is_granted('ROLE_ADMIN') %}
-            <li><a href="#" class="list-none lg:text-xl">Villes</a></li>
-            <li><a href="#" class="list-none lg:text-xl">Campus</a></li>
-            {% endif %}
-        </ul>
-    </div>
-</div>
+    <header>
+            <h1>Sortir.com</h1>
+            <ul>
+                {#            {% if app.user %}#}
+                <li><a href="#">Accueil</a></li>
+                <li><a href="#">Mon profil</a></li>
+                <li><a href="#">Se déconnecter</a></li>
+                {#            {% endif %}#}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="#">Villes</a></li>
+                    <li><a href="#" >Campus</a></li>
+                {% endif %}
+            </ul>
+
+    </header>

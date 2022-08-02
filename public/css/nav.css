@@ -3,7 +3,7 @@ header ul>li:after{
     display: block;
     width: 0;
     height: 2px;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(0, 0, 0);
     transition: width 0.3s ease-in-out;
 }
 header ul>li:hover:after{
@@ -12,4 +12,44 @@ header ul>li:hover:after{
 
 header ul>li{
     transition: all 2s;
+}
+
+
+header{
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 20px;
+    padding-left: 20px;
+    border-bottom: 1px solid black;
+}
+
+header ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5em;
+}
+
+header ul li{
+    list-style: none;
+    font-size: 1.25em;
+}
+header ul li a{
+    color: #0c0c0c;
+    text-decoration: none;
+}
+
+header h1{
+    font-size: 2.5em;
+    color: #0c0c0c;
+    text-shadow: 2px 2px 5px#2b7173;
+    letter-spacing: 1px;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
 }
