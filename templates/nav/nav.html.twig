@@ -11,7 +11,7 @@
                 <li><a href="{{ path('app_logout') }}" title="logout" >Logout</a></li> 
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
-                <li><a href="#">Villes</a></li>
+                <li><a href="{{ path('main_gestionVille') }}">Villes</a></li>
                 <li><a href="#" >Campus</a></li>
             {% endif %}
         </ul>

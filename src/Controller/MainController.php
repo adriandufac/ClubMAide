@@ -22,6 +22,7 @@ class MainController extends AbstractController
      */
     public function gestionville(): Response
     {
+//        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('main/gestionville.html.twig');
     }
     
