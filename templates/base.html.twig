@@ -15,6 +15,9 @@
         {% endblock %}
     </head>
     <body>
+        {% block navbar %}
+            {% extends 'nav/nav.html.twig' %}
+        {% endblock %}
         {% block body %}Hello les bg, plop la dream team
         <div class="text-center text-amber-400">
             Salut

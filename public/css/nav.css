@@ -1,0 +1,15 @@
+header ul>li:after{
+    content: "";
+    display: block;
+    width: 0;
+    height: 2px;
+    background-color: rgb(255, 255, 255);
+    transition: width 0.3s ease-in-out;
+}
+header ul>li:hover:after{
+    width: 100%;
+}
+
+header ul>li{
+    transition: all 2s;
+}
