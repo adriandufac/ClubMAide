@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gérer les villes{% endblock %}
+{% block title %}Gérer les villes | {{ parent() }}{% endblock %}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/gestionVille.css') }}">{% endblock %}
+    <link rel="stylesheet" href="{{ asset('css/gestionVille.css') }}">
+{% endblock %}
 
 
 {% block body %}

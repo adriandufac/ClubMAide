@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,14 +20,22 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/gestionVille", name="main_gestionVille")
+     * @Route("/gestion_ville", name="gestion_ville")
      */
     public function gestionville(VilleRepository  $villeRepository): Response
     {
         //$this->denyAccessUnlessGranted('ROLE_ADMIN');
         $villes = $villeRepository-> findAll();
-        return $this->render('main/gestionville.html.twig',["villes"=>$villes]);
+        return $this->render('main/gestionville.html.twig',["villes" => $villes]);
     }
 
+    /**
+     * @Route("/profil", name="profil")
+     */
+    public function profil(UserRepository $userRepository): Response
+    {
+        $user = $userRepository->findAll();
+        return $this->render('main/profil.html.twig', ["user" => $user ]);
+    }
 
 }
