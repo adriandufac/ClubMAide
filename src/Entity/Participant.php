@@ -25,7 +25,7 @@ class Participant
     /**
      * @ORM\Column(type="string", length=55)
      */
-    private $prénom;
+    private $prenom;
 
     /**
      * @ORM\Column(type="integer", length=10)
@@ -69,14 +69,14 @@ class Participant
         return $this;
     }
 
-    public function getPrénom(): ?string
+    public function getPrenom(): ?string
     {
-        return $this->prénom;
+        return $this->prenom;
     }
 
-    public function setPrénom(string $prénom): self
+    public function setPrenom(string $prenom): self
     {
-        $this->prénom = $prénom;
+        $this->prenom = $prenom;
 
         return $this;
     }
