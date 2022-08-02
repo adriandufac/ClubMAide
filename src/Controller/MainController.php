@@ -13,6 +13,7 @@ class MainController extends AbstractController
      */
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         return $this->render('main/index.html.twig');
     }
 
