@@ -15,5 +15,13 @@ class MainController extends AbstractController
     {
         return $this->render('main/index.html.twig');
     }
+
+    /**
+     * @Route("/gestionVille", name="main_gestionVille")
+     */
+    public function gestionville(): Response
+    {
+        return $this->render('main/gestionville.html.twig');
+    }
     
 }
