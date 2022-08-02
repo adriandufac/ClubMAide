@@ -133,7 +133,7 @@ class Sortie
 
     public function getEtat(): ?string
     {
-        return $this->string;
+        return $this->etat;
     }
 
     public function setEtat(string $etat): self
