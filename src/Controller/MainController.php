@@ -6,6 +6,7 @@ use App\Entity\Campus;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\AccueilFiltrageFormType;
+use App\Form\VilleAddType;
 use App\Form\VilleSearchType;
 use App\Repository\CampusRepository;
 use App\Repository\SortieRepository;
@@ -41,10 +42,15 @@ class MainController extends AbstractController
     public function gestionville(VilleRepository  $villeRepository, Request $request,EntityManagerInterface $entityManager): Response
     {
         $ville = new Ville();
+        $ville2 = new Ville();
         //$this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $villeForm = $this->createForm(VilleSearchType::class,$ville);
         $villeForm->handleRequest($request);
+
+        $villeForm2 = $this->createForm(VilleAddType::class,$ville2);
+        $villeForm2->handleRequest($request);
+
         if($villeForm->isSubmitted()){
             if ($ville->getNom() != ""){
                 $villes = $villeRepository->findVilleSearchbar($ville->getNom());
@@ -56,7 +62,13 @@ class MainController extends AbstractController
         else {
             $villes = $villeRepository-> findAll();
         }
-        return $this->render('main/gestionville.html.twig',["villes" => $villes,'villeForm' =>$villeForm->createView()]);
+
+        if ($villeForm2->isSubmitted()){
+            $entityManager->persist($ville2);
+            $entityManager->flush();
+            return $this->redirectToRoute('gestion_ville');
+        }
+        return $this->render('main/gestionville.html.twig',["villes" => $villes,'villeForm' =>$villeForm->createView(),'villeForm2'=>$villeForm2->createView()]);
     }
 
     /**
