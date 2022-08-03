@@ -47,12 +47,13 @@ class MainController extends AbstractController
         $villeForm->handleRequest($request);
         if($villeForm->isSubmitted()){
             if ($ville->getNom() != ""){
-                $query = $entityManager->createQuery(
+                /*$query = $entityManager->createQuery(
                     "SELECT v
             FROM App\Entity\Ville v
             WHERE v.nom LIKE :nom"
                 )->setParameter('nom', '%'.$ville->getNom().'%');
-                $villes =$query->getResult();
+                $villes =$query->getResult();*/
+                $villes = $villeRepository->findVilleSearchbar($ville->getNom());
             }
             else{
                 $villes = $villeRepository-> findAll();
