@@ -60,6 +60,33 @@ class MainController extends AbstractController
     }
 
     /**
+     * @Route("/ville_edit/{id}", name="ville_edit")
+     */
+
+    public function edit(Request $request,int $id,VilleRepository  $villeRepository,EntityManagerInterface $entityManager): Response
+    {
+        $ville =($villeRepository->find($id));
+
+        $villeForm = $this->createForm(VilleType::class,$ville);
+
+        $villeForm->handleRequest($request);
+        //si on submit le formulaire
+        if($villeForm->isSubmitted()){
+            //ajout de la produit en base
+
+            $entityManager->persist($ville);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'ville modifié!');
+            //on affiche la liste des produits
+            return $this->redirectToRoute('gestion_ville');
+        }
+
+        //on envoit le formulaire a la page d'ajout de category
+        return $this->render('main/ville_edit.html.twig',['villeForm' =>$villeForm->createView()]);
+    }
+
+    /**
      * @Route("/profil", name="profil")
      */
     public function profil(UserRepository $userRepository): Response

@@ -34,7 +34,7 @@
             <div id="actions">
                 <h2>Actions</h2>
                 {% for ville in villes %}
-                    <p><a href="">modifier</a> - <a href="">supprimer</a></p>
+                    <p><a href="{{ path('ville_edit',{'id':ville.id}) }}">modifier</a> - <a href="">supprimer</a></p>
                 {% endfor %}
             </div>
 
