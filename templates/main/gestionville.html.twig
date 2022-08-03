@@ -8,6 +8,14 @@
 
 {% block body %}
     <h2 style="text-align: center">Gérer les villes</h2>
+        <div>
+            <h3>Le nom contient :</h3>
+            {{ form_start(villeForm) }}
+            {{ form_widget(villeForm) }}
+            <button>Rechercher</button>
+            {{ form_end(villeForm) }}
+        </div>
+
         <div id="container">
             <div id="villes">
                 <h2>Villes</h2>
@@ -22,6 +30,7 @@
                     <p>{{ ville.codepostal }}</p>
                 {% endfor %}
             </div>
+
             <div id="actions">
                 <h2>Actions</h2>
                 {% for ville in villes %}
