@@ -6,7 +6,7 @@
         <h1>Club M'aide</h1>
         <ul>
             {% if app.user %}
-                <li><a href="#">Accueil</a></li>
+                <li><a href="{{ path('main_page') }}">Accueil</a></li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li><a href="{{ path('gestion_ville') }}">Villes</a></li>
                 <li><a href="#" >Campus</a></li>
