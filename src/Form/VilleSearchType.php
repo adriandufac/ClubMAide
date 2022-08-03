@@ -8,12 +8,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class VilleType extends AbstractType
+class VilleSearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('nom',TextType::class,array('required' => false))
+            ->add('code_postal',TextType::class,array('required' => false))
         ;
     }
 

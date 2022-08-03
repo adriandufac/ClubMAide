@@ -6,5 +6,8 @@
 {% endblock %}
 
 {% block body %}
-
+    {{ form_start(villeForm) }}
+    {{ form_widget(villeForm) }}
+    <button>Edit</button>
+    {{ form_end(villeForm) }}
 {% endblock %}

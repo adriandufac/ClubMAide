@@ -6,7 +6,7 @@ use App\Entity\Campus;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\AccueilFiltrageFormType;
-use App\Form\VilleType;
+use App\Form\VilleSearchType;
 use App\Repository\CampusRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
@@ -43,7 +43,7 @@ class MainController extends AbstractController
         $ville = new Ville();
         //$this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        $villeForm = $this->createForm(VilleType::class,$ville);
+        $villeForm = $this->createForm(VilleSearchType::class,$ville);
         $villeForm->handleRequest($request);
         if($villeForm->isSubmitted()){
             if ($ville->getNom() != ""){
@@ -67,7 +67,7 @@ class MainController extends AbstractController
     {
         $ville =($villeRepository->find($id));
 
-        $villeForm = $this->createForm(VilleType::class,$ville);
+        $villeForm = $this->createForm(VilleSearchType::class,$ville);
 
         $villeForm->handleRequest($request);
         //si on submit le formulaire

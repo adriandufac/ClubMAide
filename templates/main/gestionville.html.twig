@@ -10,10 +10,10 @@
     <h2 style="text-align: center">Gérer les villes</h2>
         <div>
             <h3>Le nom contient :</h3>
-            {{ form_start(villeForm) }}
-            {{ form_widget(villeForm) }}
+            {{ form_start(villeForm.nom) }}
+            {{ form_widget(villeForm.nom) }}
             <button>Rechercher</button>
-            {{ form_end(villeForm) }}
+            {{ form_end(villeForm.nom) }}
         </div>
 
         <div id="container">
