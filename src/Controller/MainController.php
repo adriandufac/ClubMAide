@@ -87,6 +87,19 @@ class MainController extends AbstractController
     }
 
     /**
+     * @Route("/ville_delete/{id}", name="ville_delete")
+     */
+
+    public function delete(int $id,VilleRepository $villeRepository,EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($villeRepository->find($id));
+        $entityManager->flush();
+        return $this->redirectToRoute('gestion_ville');
+    }
+
+    /**
+
+    /**
      * @Route("/profil", name="profil")
      */
     public function profil(UserRepository $userRepository): Response
