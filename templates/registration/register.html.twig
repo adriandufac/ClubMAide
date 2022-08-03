@@ -9,10 +9,10 @@
         <div class="alert altert-danger" role="alert">{{ flashError }}</div>    
     {% endfor %}
 
-    {{ form_start(registrationForm) }}
+    {{ form_start(form) }}
 
-        {{ form_widget(registrationForm) }}
+        {{ form_widget(form) }}
 
         <button type="submit" class="btn">Créer</button>
-    {{ form_end(registrationForm) }}
+    {{ form_end(form) }}
 {% endblock %}

@@ -29,13 +29,4 @@ class MainController extends AbstractController
         return $this->render('main/gestionville.html.twig',["villes" => $villes]);
     }
 
-    /**
-     * @Route("/profil", name="profil")
-     */
-    public function profil(UserRepository $userRepository): Response
-    {
-        $user = $userRepository->findAll();
-        return $this->render('main/profil.html.twig', ["user" => $user ]);
-    }
-
 }
