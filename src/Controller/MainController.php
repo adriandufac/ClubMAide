@@ -6,6 +6,7 @@ use App\Entity\Ville;
 use App\Form\VilleType;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +26,7 @@ class MainController extends AbstractController
     /**
      * @Route("/gestion_ville", name="gestion_ville")
      */
-    public function gestionville(VilleRepository  $villeRepository, Request $request): Response
+    public function gestionville(VilleRepository  $villeRepository, Request $request,EntityManagerInterface $entityManager): Response
     {
         $ville = new Ville();
         //$this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -34,7 +35,12 @@ class MainController extends AbstractController
         $villeForm->handleRequest($request);
         if($villeForm->isSubmitted()){
             if ($ville->getNom() != ""){
-                $villes = $villeRepository -> findBy(['nom' => $ville->getNom()]);
+                $query = $entityManager->createQuery(
+                    "SELECT v
+            FROM App\Entity\Ville v
+            WHERE v.nom LIKE :nom"
+                )->setParameter('nom', '%'.$ville->getNom().'%');
+                $villes =$query->getResult();
             }
             else{
                 $villes = $villeRepository-> findAll();
