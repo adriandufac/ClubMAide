@@ -2,8 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
+use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Form\AccueilFiltrageFormType;
 use App\Form\VilleType;
+use App\Repository\CampusRepository;
+use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,10 +22,17 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="main_page")
      */
-    public function index(): Response
+    public function index(AccueilFiltrageFormType $accueilFiltrageFormType, Request $request, SortieRepository $sortieRepository): Response
     {
+
+        $filtreForm = $this->createForm(AccueilFiltrageFormType::class);
+        $filtreForm->handleRequest($request);
+
+
         $this->denyAccessUnlessGranted('ROLE_USER');
-        return $this->render('main/index.html.twig');
+        return $this->render('main/index.html.twig',
+            ['filtreForm' => $filtreForm->createView(),
+                'sorties' => $sortieRepository->findAll()]);
     }
 
     /**
