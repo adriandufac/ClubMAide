@@ -8,12 +8,21 @@
 
 {% block body %}
     <h2 style="text-align: center">Gérer les villes</h2>
+        <div>
+            <h3>Le nom contient :</h3>
+            {{ form_start(villeForm.nom) }}
+            {{ form_widget(villeForm.nom) }}
+            <button type="submit" name="submit">Rechercher</button>
+            {{ form_end(villeForm.nom) }}
+        </div>
+        {{ form_start(villeForm2) }}
         <div id="container">
             <div id="villes">
                 <h2>Villes</h2>
                 {% for ville in villes %}
                     <p>{{ ville.nom }}</p>
                 {% endfor %}
+                <p>{{ form_widget(villeForm2.nom) }}</p>
             </div>
 
             <div id="cp">
@@ -21,13 +30,17 @@
                 {% for ville in villes %}
                     <p>{{ ville.codepostal }}</p>
                 {% endfor %}
+                <p>{{ form_widget(villeForm2.code_postal) }}</p>
             </div>
+
             <div id="actions">
                 <h2>Actions</h2>
                 {% for ville in villes %}
-                    <p><a href="">modifier</a> - <a href="">supprimer</a></p>
+                    <p><a href="{{ path('ville_edit',{'id':ville.id}) }}">modifier</a> - <a href="{{ path('ville_delete',{'id':ville.id}) }}">supprimer</a></p>
                 {% endfor %}
+                <p><a href="{{ path('gestion_ville') }}"> <button>Ajouter</button></a></p>
             </div>
+            {{ form_end(villeForm2) }}
 
 
         </div>

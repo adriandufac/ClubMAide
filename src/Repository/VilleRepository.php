@@ -39,6 +39,18 @@ class VilleRepository extends ServiceEntityRepository
         }
     }
 
+    public  function findVilleSearchbar(string $search){
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            "SELECT v
+            FROM App\Entity\Ville v
+            WHERE v.nom LIKE :nom"
+        )->setParameter('nom', '%'.$search.'%');
+        $villes=$query->getResult();
+        return($villes);
+    }
+
 //    /**
 //     * @return Ville[] Returns an array of Ville objects
 //     */

@@ -58,17 +58,6 @@ class Sortie
     private $campus;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="inscriptionsSorties")
-     */
-    private $participantsInscrits;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="organisationSorties")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $participantsOrganisateurs;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -80,9 +69,21 @@ class Sortie
      */
     private $lieu;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="inscriptionsSorties")
+     */
+    private $usersInscrits;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="organisationSorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $userOrganisateur;
+
     public function __construct()
     {
         $this->participantsInscrits = new ArrayCollection();
+        $this->usersInscrits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -176,44 +177,7 @@ class Sortie
         return $this;
     }
 
-    /**
-     * @return Collection<int, Participant>
-     */
-    public function getParticipantsInscrits(): Collection
-    {
-        return $this->participantsInscrits;
-    }
 
-    public function addParticipantsInscrit(Participant $participantsInscrit): self
-    {
-        if (!$this->participantsInscrits->contains($participantsInscrit)) {
-            $this->participantsInscrits[] = $participantsInscrit;
-            $participantsInscrit->addInscriptionsSorty($this);
-        }
-
-        return $this;
-    }
-
-    public function removeParticipantsInscrit(Participant $participantsInscrit): self
-    {
-        if ($this->participantsInscrits->removeElement($participantsInscrit)) {
-            $participantsInscrit->removeInscriptionsSorty($this);
-        }
-
-        return $this;
-    }
-
-    public function getParticipantsOrganisateurs(): ?Participant
-    {
-        return $this->participantsOrganisateurs;
-    }
-
-    public function setParticipantsOrganisateurs(?Participant $participantsOrganisateurs): self
-    {
-        $this->participantsOrganisateurs = $participantsOrganisateurs;
-
-        return $this;
-    }
 
     public function getEtat(): ?Etat
     {
@@ -235,6 +199,45 @@ class Sortie
     public function setLieu(?Lieu $lieu): self
     {
         $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsersInscrits(): Collection
+    {
+        return $this->usersInscrits;
+    }
+
+    public function addUsersInscrit(User $usersInscrit): self
+    {
+        if (!$this->usersInscrits->contains($usersInscrit)) {
+            $this->usersInscrits[] = $usersInscrit;
+            $usersInscrit->addInscriptionsSorty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsersInscrit(User $usersInscrit): self
+    {
+        if ($this->usersInscrits->removeElement($usersInscrit)) {
+            $usersInscrit->removeInscriptionsSorty($this);
+        }
+
+        return $this;
+    }
+
+    public function getUserOrganisateur(): ?User
+    {
+        return $this->userOrganisateur;
+    }
+
+    public function setUserOrganisateur(?User $userOrganisateur): self
+    {
+        $this->userOrganisateur = $userOrganisateur;
 
         return $this;
     }

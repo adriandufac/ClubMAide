@@ -1,9 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Acceuil | {{ parent() }}{% endblock %}
+{% block title %}Accueil | {{ parent() }}{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/index.css') }}">
+{% endblock %}
 
+{% block javascripts %}
+<script>
+    (document).ready(function() {
+        // you may need to change this code if you are not using Bootstrap Datepicker
+        ('.js-datepicker').format('DD/MM/YYYY');
+            }
+</script>
+{% endblock %}
 
 {% block body %}
-<div class="example-wrapper">
-    <h1 class="text-cyan-500">Hello! ✅</h1>
+<div class="container">
+
+    <section class="filtrage">
+        <div class="left-section">
+            <h2>Filtrer les sorties</h2>
+            {{ form_start(filtreForm) }}
+            {{ form_widget(filtreForm) }}
+            {{ form_end(filtreForm) }}
+        </div>
+        <div class="right-section">
+            <button type="submit">Rechercher</button>
+        </div>
+    </section>
+
+
+    <section class="tab-section">
+        <div class="tab">
+            <div class="nom">
+                <h2>Nom de la sortie</h2>
+            </div>
+            <div class="date">
+                <h2>Date de la sortie</h2>
+            </div>
+            <div class="cloture">
+                <h2>Clôture</h2>
+            </div>
+            <div class="places">
+                <h2>Places</h2>
+            </div>
+            <div class="etat">
+                <h2>Etat</h2>
+            </div>
+            <div class="inscrit">
+                <h2>Inscrits/Places</h2>
+            </div>
+            <div class="organisateur">
+                <h2>Organisateur</h2>
+            </div>
+            <div class="actions">
+                <h2>Actions</h2>
+            </div>
+        </div>
+    </section>
+    <a href="#">Créer une sortie</a>
+</div>
 {% endblock %}
