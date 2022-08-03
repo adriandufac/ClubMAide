@@ -33,21 +33,18 @@ class AccueilFiltrageFormType extends AbstractType
             ->add('date_debut', DateType::class, [
                 'required' => false,
                 'label' => 'Entre',
-                'html5' => false,
+                'html5' => true,
                 'widget' => 'single_text',
-                'attr' => ['class' => 'js-datepicker'],
-
             ])
             ->add('date_fin', DateType::class, [
                 'required' => false,
                 'label' => 'Et',
-                'html5' => false,
+                'html5' => true,
                 'widget' => 'single_text',
-                'attr' => ['class' => 'js-datepicker'],
             ])
             ->add('isOrganisateur', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Sorties dont e suis l\'organisateur/trice',
+                'label' => 'Sorties dont je suis l\'organisateur/trice',
             ])
             ->add('isInscrit', CheckboxType::class, [
                 'required' => false,

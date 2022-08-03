@@ -6,58 +6,155 @@
 {% endblock %}
 
 {% block javascripts %}
-<script>
-    (document).ready(function() {
-        // you may need to change this code if you are not using Bootstrap Datepicker
-        ('.js-datepicker').format('DD/MM/YYYY');
-            }
-</script>
 {% endblock %}
 
 {% block body %}
 <div class="container">
-
+    <div class="title">
+        <h2>Filtrer les sorties</h2>
+    </div>
+    {{ form_start(filtreForm) }}
     <section class="filtrage">
+
         <div class="left-section">
-            <h2>Filtrer les sorties</h2>
-            {{ form_start(filtreForm) }}
-            {{ form_widget(filtreForm) }}
-            {{ form_end(filtreForm) }}
+            <div class="form-group-left">
+                <div class="campus">
+                {{ form_label(filtreForm.campus, 'Campus') }}
+                {{ form_widget(filtreForm.campus, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="search-bar">
+                    {{ form_label(filtreForm.nom_sortie, 'Le nom de la sortie contient :') }}
+                    {{ form_widget(filtreForm.nom_sortie, {'attr': {'class': 'form-control'}})}}
+                </div>
+                <div class="dates-label">
+                    {{ form_label(filtreForm.date_debut, 'Entre') }}
+                    {{ form_widget(filtreForm.date_debut, {'attr': {'class': 'form-control js-datepicker'}})}}
+                    {{ form_label(filtreForm.date_fin, 'Et') }}
+                    {{ form_widget(filtreForm.date_fin, {'attr': {'class': 'form-control js-datepicker'},})}}
+                </div>
+            </div>
         </div>
         <div class="right-section">
-            <button type="submit">Rechercher</button>
+            <div class="form-group-right">
+                <div class="isOrganisateur">
+                    {{ form_label(filtreForm.isOrganisateur) }}
+                    {{ form_widget(filtreForm.isOrganisateur, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="isInscrit">
+                    {{ form_label(filtreForm.isInscrit) }}
+                    {{ form_widget(filtreForm.isInscrit, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="isPasInscrit">
+                    {{ form_label(filtreForm.isPasInscrit) }}
+                    {{ form_widget(filtreForm.isPasInscrit, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="sorties-passees">
+                    {{ form_label(filtreForm.sortiesPassees) }}
+                    {{ form_widget(filtreForm.sortiesPassees, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
         </div>
-    </section>
-
-
+        <button class="search">Rechercher</button>
+        </section>
+    {{ form_end(filtreForm) }}
     <section class="tab-section">
         <div class="tab">
             <div class="nom">
                 <h2>Nom de la sortie</h2>
+                {% for sortie in sorties %}
+                <div class="name">
+                    {{ sortie.nom }}
+                </div>
+                {% endfor %}
             </div>
-            <div class="date">
+            <div class="dates">
                 <h2>Date de la sortie</h2>
+                {% for sortie in sorties %}
+                    <div class="date_debut">
+                        {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}
+                    </div>
+                {% endfor %}
             </div>
-            <div class="cloture">
+            <div class="clotures">
                 <h2>Clôture</h2>
+                {% for sortie in sorties %}
+                    <div class="cloture">
+                        {{ sortie.dateLimiteInscription|date('d/m/Y') }}
+                    </div>
+                {% endfor %}
             </div>
             <div class="places">
-                <h2>Places</h2>
+                <h2>Inscrit/Places</h2>
+                {% for sortie in sorties %}
+                    <div class="place">
+                        {{ sortie.usersInscrits.count }}/{{ sortie.nbInscriptionsMax }}
+                    </div>
+                {% endfor %}
             </div>
             <div class="etat">
                 <h2>Etat</h2>
+                {% for sortie in sorties %}
+                    <div class="etat">
+                        {{ sortie.etat.libelle }}
+                    </div>
+                {% endfor %}
             </div>
-            <div class="inscrit">
-                <h2>Inscrits/Places</h2>
+            <div class="inscrits">
+                <h2>Inscrit</h2>
+                {% for sortie in sorties %}
+                    {% for user in sortie.usersInscrits %}
+                        {% if user.id == app.user.id %}
+                            <div class="inscrit">
+                                X
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
             </div>
-            <div class="organisateur">
+            <div class="organisateurs">
                 <h2>Organisateur</h2>
+                {% for sortie in sorties %}
+                        <div class="organisateur">
+                           <a href="#{# {{ sortie.userOrganisateur.id}} #}">{{ sortie.userOrganisateur.pseudo }}</a>
+                        </div>
+                {% endfor %}
             </div>
             <div class="actions">
                 <h2>Actions</h2>
+                {% for sortie in sorties %}
+                    {# Si l'état de la sortie est "Ouverte" #}
+                    {% if sortie.etat.libelle == 'Ouverte' %}
+                    <div class="action">
+                        <a href="#">Afficher</a>
+                        {# Si l'utilisateur en cours est inscrit à la sortie présente #}
+                        {% for user in sortie.usersInscrits %}
+                            {% if user.id == app.user.id %}
+                               -<a href="#"> Me désinscrire</a>
+                            {% endif %}
+                        {% endfor %}
+                        {# Si l'utilisateur en cours est l'organisateur de la sortie #}
+                        {% if app.user.id == sortie.userOrganisateur.id %}
+                         -<a href="#"> Annuler</a>
+                        {% endif %}
+                        {# Si l'utilisateur en cours n'est pas inscrit à la sortie et n'est pas l'organisateur #}
+                        {% for user in sortie.usersInscrits %}
+                        {% if app.user.id != sortie.userOrganisateur.id and app.user.id != user.id%}
+                            -<a href="#"> M'inscrire</a>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {# Si l'état de la sortie est "Clôturée" ou "Annulée#}
+                    {% if sortie.etat.libelle == 'Clôturée' or sortie.etat.libelle == 'Annulée' %}
+
+                    {% endif %}
+                    {# Si l'utilisateur est organisateur mais qu'il n'a pas publié la sortie #}
+
+                {% endfor %}
             </div>
         </div>
     </section>
+    <br>
     <a href="#">Créer une sortie</a>
 </div>
 {% endblock %}
