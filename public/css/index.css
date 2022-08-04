@@ -50,28 +50,53 @@ form{
     font-size: 1.5em;
     text-align: left;
 }
-.nom, .dates, .cloture, .places, .etat, .inscrit, .organisateur, .actions{
+.nom, .dates, .cloture, .places, .etat, .inscrit, .organisateur{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+.actions{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
 .action{
+    width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     align-items: center;
     gap: 15px
 }
 
-.search{
+.search, .create-sortie{
     padding: 5px;
     background-color: white;
     font-size: 1em;
-    transition: background-color 1s ease-in-out;
+    transition: all 0.3s ease-in-out;
+
 }
-.search:hover{
-    background-color: #fdfd38;
+/* SLIDE EFFECT */
+.search:hover,
+.search:focus{
+    color: white;
+    box-shadow: inset 6.5em 0 0 0 #77c22f;
+    border-color: green;
+}
+.create-sortie:hover, .create-sortie:focus{
+    box-shadow: inset 9em 0 0 0 #0276b7;
+    border-color: blue;
+    color: white;
+}
+
+.create-sortie{
+    color: black;
+    display: inline-block;
+    text-decoration: none;
+    border: 2px solid black;
+    box-sizing: border-box;
 }
 
 

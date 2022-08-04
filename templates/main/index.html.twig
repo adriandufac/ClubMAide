@@ -122,6 +122,13 @@
             <div class="actions">
                 <h2>Actions</h2>
                 {% for sortie in sorties %}
+                    {# Si l'état de la sortie est 'Activité en cours' #}
+                    {% if sortie.etat.libelle ==  'Activité en cours' %}
+                    <div class="action">
+                        <a href="#">Afficher</a>
+                    </div>
+                    {% endif %}
+
                     {# Si l'état de la sortie est "Ouverte" #}
                     {% if sortie.etat.libelle == 'Ouverte' %}
                     <div class="action">
@@ -149,12 +156,11 @@
 
                     {% endif %}
                     {# Si l'utilisateur est organisateur mais qu'il n'a pas publié la sortie #}
-
                 {% endfor %}
             </div>
         </div>
     </section>
     <br>
-    <a href="#">Créer une sortie</a>
+    <a href="#" class="create-sortie">Créer une sortie</a>
 </div>
 {% endblock %}

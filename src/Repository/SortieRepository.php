@@ -39,6 +39,19 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+    public function updateEtat(int $id,string $etatId){
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            "UPDATE App\Entity\Sortie s
+            SET s.etat = :etat
+            WHERE s.id = :id"
+        )->setParameter('etat', $etatId)
+            ->setParameter('id', $id);
+
+        $query->execute();
+    }
+
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */

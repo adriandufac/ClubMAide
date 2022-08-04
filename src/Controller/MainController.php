@@ -25,12 +25,41 @@ class MainController extends AbstractController
      */
     public function index(AccueilFiltrageFormType $accueilFiltrageFormType, Request $request, SortieRepository $sortieRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        /*
+         * ID DES DIFFERENTS ETAT
+         * 1 - Créée
+         * 2 - Ouverte
+         * 3 - Clôturée
+         * 4 - Activité en cours
+         * 5 - Passée
+         * 6 - Annulée
+         * */
+        $sorties = $sortieRepository->findAll();
+
+        // Traitement de l'état
+        foreach ($sorties as $sortie) {
+            if ($sortie->getDateLimiteInscription() < new \DateTime() && $sortie->getDateHeureDebut() > new \DateTime()) {
+                $sortieRepository->updateEtat($sortie->getId(), 3);
+            } else if (new \DateTime() > $sortie->getDateHeureDebut() and new \DateTime() < $sortie->getDateHeureDebut()->modify('+' . $sortie->getDuree() . 'hours')) {
+                $sortieRepository->updateEtat($sortie->getId(), 4);
+                // Modification de la date en enlevant sa durée car ajouter lors du traitement modify() dans les paramètres du if()
+                $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree() . 'hours');
+            } else if (new \DateTime() > $sortie->getDateHeureDebut()->modify('+' . $sortie->getDuree() . 'hours')) {
+                $sortieRepository->updateEtat($sortie->getId(), 5);
+                $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree() . 'hours');
+            } else if ($sortie->getDateLimiteInscription() > new \DateTime()) {
+                $sortieRepository->updateEtat($sortie->getId(), 2);
+            }
+        }
+
 
         $filtreForm = $this->createForm(AccueilFiltrageFormType::class);
         $filtreForm->handleRequest($request);
 
 
-        $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->render('main/index.html.twig',
             ['filtreForm' => $filtreForm->createView(),
                 'sorties' => $sortieRepository->findAll()]);
@@ -107,15 +136,6 @@ class MainController extends AbstractController
         $entityManager->remove($villeRepository->find($id));
         $entityManager->flush();
         return $this->redirectToRoute('gestion_ville');
-    }
-
-    /**
-     * @Route("/profil", name="profil")
-     */
-    public function profil(UserRepository $userRepository): Response
-    {
-        $user = $userRepository->findAll();
-        return $this->render('main/profil.html.twig', ["user" => $user ]);
     }
 
 }
