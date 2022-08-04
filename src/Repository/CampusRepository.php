@@ -39,6 +39,18 @@ class CampusRepository extends ServiceEntityRepository
         }
     }
 
+    public  function findCampusSearchbar(string $search){
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            "SELECT c
+            FROM App\Entity\Campus c
+            WHERE c.nom LIKE :nom"
+        )->setParameter('nom', '%'.$search.'%');
+        $campus=$query->getResult();
+        return($campus);
+    }
+
 //    /**
 //     * @return Campus[] Returns an array of Campus objects
 //     */
