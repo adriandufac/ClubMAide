@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gerer les Campus | {{ parents() }}{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/gestioncampus.css') }}">
+{% endblock %}
+{% block body %}
+    <h2 style="test-align: center">Gérer les campus</h2>
+        <div>
+            <h3>Le nom du Campus contient : </h3>
+            {{ form_start(CampusType.nom) }}
+            {{ form_widget(CampusType.nom) }}
+            <button type="submit" name="submit">Rechercher</button>
+            {{ form_end(CampusType.nom) }}
+        </div>
+
+
+
+
+{% endblock %}
