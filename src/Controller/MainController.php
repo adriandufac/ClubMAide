@@ -139,29 +139,4 @@ class MainController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('gestion_ville');
     }
-
-    /**
-     * @Route("/campus_gestion", name="campus_gestion")
-     */
-
-    public function gestioncampus(CampusRepository  $campusRepository, Request $request,EntityManagerInterface $entityManager): Response
-    {
-        $campus = new Campus();
-
-        $campusform = $this->createForm(CampusType::class,$campus);
-        $campusform->handleRequest($request);
-
-        if($campusform->isSubmitted()){
-            if ($campus->getNom() != ""){
-                $campus = $campusRepository->findCampusSearchbar($campus->getNom());
-            }
-            else{
-                $campus = $campusRepository-> findAll();
-            }
-        }
-        else {
-            $campus = $campusRepository-> findAll();
-        }
-        return $this->render('main/gestioncampus.html.twig',["campus" => $campus,'campusform' =>$campusform->createView()]);
-    }
 }
