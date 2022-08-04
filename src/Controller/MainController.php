@@ -41,18 +41,24 @@ class MainController extends AbstractController
         $sorties = $sortieRepository->findAll();
 
         // Traitement de l'état
+        // Traitement de l'état
         foreach ($sorties as $sortie) {
             if ($sortie->getDateLimiteInscription() < new \DateTime() && $sortie->getDateHeureDebut() > new \DateTime()) {
-                $sortieRepository->updateEtat($sortie->getId(), 3);
-            } else if (new \DateTime() > $sortie->getDateHeureDebut() and new \DateTime() < $sortie->getDateHeureDebut()->modify('+' . $sortie->getDuree() . 'hours')) {
-                $sortieRepository->updateEtat($sortie->getId(), 4);
-                // Modification de la date en enlevant sa durée car ajouter lors du traitement modify() dans les paramètres du if()
-                $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree() . 'hours');
-            } else if (new \DateTime() > $sortie->getDateHeureDebut()->modify('+' . $sortie->getDuree() . 'hours')) {
-                $sortieRepository->updateEtat($sortie->getId(), 5);
-                $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree() . 'hours');
-            } else if ($sortie->getDateLimiteInscription() > new \DateTime()) {
-                $sortieRepository->updateEtat($sortie->getId(), 2);
+                if ($sortie->getDateLimiteInscription() > new \DateTime() || $sortie->getNbInscriptionsMax() == count($sortie->getUsersInscrits())) {
+                    $sortieRepository->updateEtat($sortie->getId(), 3);
+                } else if (new \DateTime() > $sortie->getDateHeureDebut() and new \DateTime() < $sortie->getDateHeureDebut()->modify('+' . $sortie->getDuree() . 'hours')) {
+                    $sortieRepository->updateEtat($sortie->getId(), 4);
+                    // Modification de la date en enlevant sa durée car ajouter lors du traitement modify() dans les paramètres du if()
+                    $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree() . 'hours');
+                    $sortieRepository->updateEtat($sortie->getId(), 4);
+                } else if (new \DateTime() > $sortie->getDateHeureDebut()->modify('+' . $sortie->getDuree() . 'hours')) {
+                    $sortieRepository->updateEtat($sortie->getId(), 5);
+                    $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree() . 'hours');
+                } else if ($sortie->getDateLimiteInscription() > new \DateTime()) {
+                    $sortieRepository->updateEtat($sortie->getId(), 5);
+                } else if ($sortie->getDateLimiteInscription() >= new \DateTime() && count($sortie->getUsersInscrits()) < $sortie->getNbInscriptionsMax()) {
+                    $sortieRepository->updateEtat($sortie->getId(), 2);
+                }
             }
         }
 
@@ -165,4 +171,4 @@ class MainController extends AbstractController
         return $this->render('main/gestioncampus.html.twig',["campus" => $campus,'campusform' =>$campusform->createView()]);
     }
 }
-}
+

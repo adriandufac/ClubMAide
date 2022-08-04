@@ -127,10 +127,8 @@
                     <div class="action">
                         <a href="#">Afficher</a>
                     </div>
-                    {% endif %}
-
                     {# Si l'état de la sortie est "Ouverte" #}
-                    {% if sortie.etat.libelle == 'Ouverte' %}
+                    {% elseif sortie.etat.libelle == 'Ouverte' %}
                     <div class="action">
                         <a href="#">Afficher</a>
                         {# Si l'utilisateur en cours est inscrit à la sortie présente #}
@@ -150,10 +148,18 @@
                         {% endif %}
                         {% endfor %}
                     </div>
-                    {% endif %}
-                    {# Si l'état de la sortie est "Clôturée" ou "Annulée#}
-                    {% if sortie.etat.libelle == 'Clôturée' or sortie.etat.libelle == 'Annulée' %}
+                    {# Si l'état de la sortie est "Clôturée"#}
+                    {% elseif sortie.etat.libelle == 'Clôturée' %}
+                        {% for user in sortie.usersInscrits %}
+                            {% if user.id == app.user.id and  "now"|date("d/m/Y H:i:s") > sortie.dateLimiteInscription %}
+                                -<a href="#"> Me désinscrire</a>
+                            {% endif %}
+                        {% endfor %}
 
+                     {% elseif sortie.etat.libelle == 'Passée'%}
+                         <div class="action">
+                             <a href="#">Afficher</a>
+                         </div>
                     {% endif %}
                     {# Si l'utilisateur est organisateur mais qu'il n'a pas publié la sortie #}
                 {% endfor %}
