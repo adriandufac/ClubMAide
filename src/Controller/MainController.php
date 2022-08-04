@@ -6,6 +6,7 @@ use App\Entity\Campus;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\AccueilFiltrageFormType;
+use App\Form\CampusType;
 use App\Form\VilleAddType;
 use App\Form\VilleSearchType;
 use App\Repository\CampusRepository;
@@ -13,6 +14,7 @@ use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -138,4 +140,28 @@ class MainController extends AbstractController
         return $this->redirectToRoute('gestion_ville');
     }
 
+    /**
+     * @Route("/campus_gestion", name="campus_gestion")
+     */
+
+    public function gestioncampus(CampusRepository  $campusRepository, Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $campus = new Campus();
+
+        $campusform = $this->createForm(CampusType::class,$campus);
+        $campusform->handleRequest($request);
+
+        if($campusform->isSubmitted()){
+            if ($campus->getNom() != ""){
+                $campus = $campusRepository->findCampusSearchbar($campus->getNom());
+            }
+            else{
+                $campus = $campusRepository-> findAll();
+            }
+        }
+        else {
+            $campus = $campusRepository-> findAll();
+        }
+        return $this->render('main/gestioncampus.html.twig',["campus" => $campus,'campusform' =>$campusform->createView()]);
+    }
 }

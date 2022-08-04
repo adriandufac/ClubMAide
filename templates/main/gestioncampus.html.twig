@@ -13,7 +13,13 @@
             <button type="submit" name="submit">Rechercher</button>
             {{ form_end(CampusType.nom) }}
         </div>
-
+        <div id="container">
+            <div id="campus">
+                <h2>Campus</h2>
+                {% for camp in Campus %}
+                    <p>{{ camp.nom }}</p>
+                {% endfor %}
+            </div>
 
 
 
