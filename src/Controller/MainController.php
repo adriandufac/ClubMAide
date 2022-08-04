@@ -41,7 +41,6 @@ class MainController extends AbstractController
         $sorties = $sortieRepository->findAll();
 
         // Traitement de l'état
-        // Traitement de l'état
         foreach ($sorties as $sortie) {
             if ($sortie->getDateLimiteInscription() < new \DateTime() && $sortie->getDateHeureDebut() > new \DateTime()) {
                 if ($sortie->getDateLimiteInscription() > new \DateTime() || $sortie->getNbInscriptionsMax() == count($sortie->getUsersInscrits())) {
@@ -53,7 +52,7 @@ class MainController extends AbstractController
                     $sortieRepository->updateEtat($sortie->getId(), 4);
                 } else if (new \DateTime() > $sortie->getDateHeureDebut()->modify('+' . $sortie->getDuree() . 'hours')) {
                     $sortieRepository->updateEtat($sortie->getId(), 5);
-                    $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree() . 'hours');
+                    $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree()*2 . 'hours');
                 } else if ($sortie->getDateLimiteInscription() > new \DateTime()) {
                     $sortieRepository->updateEtat($sortie->getId(), 5);
                 } else if ($sortie->getDateLimiteInscription() >= new \DateTime() && count($sortie->getUsersInscrits()) < $sortie->getNbInscriptionsMax()) {
@@ -62,11 +61,8 @@ class MainController extends AbstractController
             }
         }
 
-
         $filtreForm = $this->createForm(AccueilFiltrageFormType::class);
         $filtreForm->handleRequest($request);
-
-
 
         return $this->render('main/index.html.twig',
             ['filtreForm' => $filtreForm->createView(),
