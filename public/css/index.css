@@ -42,15 +42,16 @@ form{
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    gap: 3em;
 }
 .title{
     width: 90%;
     font-size: 1.5em;
     text-align: left;
 }
-.nom, .dates, .cloture, .places, .etat, .inscrit, .organisateur{
+.nom, .dates, .cloture, .places, .etats, .inscrit, .organisateur{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -71,7 +72,7 @@ form{
     gap: 15px
 }
 
-.search, .create-sortie{
+#search, .create-sortie{
     padding: 5px;
     background-color: white;
     font-size: 1em;
@@ -79,8 +80,8 @@ form{
 
 }
 /* SLIDE EFFECT */
-.search:hover,
-.search:focus{
+#search:hover,
+#search:focus{
     color: white;
     box-shadow: inset 6.5em 0 0 0 #77c22f;
     border-color: green;

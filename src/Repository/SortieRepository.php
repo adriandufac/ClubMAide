@@ -39,19 +39,28 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-    public function updateEtat(int $id,string $etatId){
+//    public function updateEtat(int $id,string $etatId){
+//        $entityManager = $this->getEntityManager();
+//
+//        $query = $entityManager->createQuery(
+//            "UPDATE App\Entity\Sortie s
+//            SET s.etat = :etat
+//            WHERE s.id = :id"
+//        )->setParameter('etat', $etatId)
+//            ->setParameter('id', $id);
+//        $query->execute();
+//    }
+
+    public function findNonArchivees(){
         $entityManager = $this->getEntityManager();
-
         $query = $entityManager->createQuery(
-            "UPDATE App\Entity\Sortie s
-            SET s.etat = :etat
-            WHERE s.id = :id"
-        )->setParameter('etat', $etatId)
-            ->setParameter('id', $id);
-
+            "SELECT s FROM App\Entity\Sortie s
+            WHERE s.etat != '7' "
+        );
         $query->execute();
+        $sorties=$query->getResult();
+        return($sorties);
     }
-
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */

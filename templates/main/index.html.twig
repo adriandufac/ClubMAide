@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block body %}
+    <div class="utilisateur">Participant : <p id="utilisateur">{{ app.user.pseudo }}</p></div>
 <div class="container">
     <div class="title">
         <h2>Filtrer les sorties</h2>
@@ -55,9 +56,11 @@
                 </div>
             </div>
         </div>
-        <button class="search">Rechercher</button>
+        {{ form_end(filtreForm) }}
+
         </section>
-    {{ form_end(filtreForm) }}
+    <button id="search">Rechercher</button>
+
     <section class="tab-section">
         <div class="tab">
             <div class="nom">
@@ -92,7 +95,7 @@
                     </div>
                 {% endfor %}
             </div>
-            <div class="etat">
+            <div class="etats">
                 <h2>Etat</h2>
                 {% for sortie in sorties %}
                     <div class="etat">
@@ -112,7 +115,7 @@
                             {% endif %}
                         {% endfor %}
                     {% else %}
-                        <div class="inscrit" style="color: white">-</div>
+                        <div class="inscrit" style="color: white"></div>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -120,7 +123,7 @@
                 <h2>Organisateur</h2>
                 {% for sortie in sorties %}
                         <div class="organisateur">
-                           <a href="#{# {{ sortie.userOrganisateur.id}} #}">{{ sortie.userOrganisateur.pseudo }}</a>
+                           <a href="#{# {{ sortie.userOrganisateur.id}} #}" class="orga">{{ sortie.userOrganisateur.pseudo }}</a>
                         </div>
                 {% endfor %}
             </div>
@@ -155,6 +158,9 @@
                     </div>
                     {# Si l'état de la sortie est "Clôturée"#}
                     {% elseif sortie.etat.libelle == 'Clôturée' %}
+                        <div class="action">
+                            <a href="#">Afficher</a>
+                        </div>
                         {% for user in sortie.usersInscrits %}
                             {% if user.id == app.user.id and  "now"|date("d/m/Y H:i:s") > sortie.dateLimiteInscription %}
                                 -<a href="#"> Me désinscrire</a>
@@ -173,8 +179,14 @@
     </section>
     <br>
     <input type="checkbox" id="orga">
-    <input type="text" id="test">
+    <input type="search" id="test">
 
     <a href="#" class="create-sortie">Créer une sortie</a>
+
+    <div>{{ dump2 }}</div>
+    <div>{{ dump3 }}</div>
+    <div>{{ dump4 }}</div>
+    <div>{{ dump5 }}</div>
+
 </div>
 {% endblock %}
