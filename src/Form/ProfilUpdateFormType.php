@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;  
 
 
-class RegistrationFormType extends AbstractType
+class ProfilUpdateFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options ): void
     {
@@ -26,10 +26,13 @@ class RegistrationFormType extends AbstractType
         ->add('nom')
         ->add('telephone')
         ->add('email')
-        ->add('plainPassword', PasswordType::class, [
-            // instead of being set onto the object directly,
-            // this is read and encoded in the controller
-            "label" => "mot de passe",
+        ->add('plainPassword', RepeatedType::class, [
+            'type' => PasswordType::class,
+            'invalid_message' => 'Les mots de passe doivent correspondre.',
+            'options' => ['attr' => ['class' => 'password-field']],
+            'required' => true,
+            'first_options'  => ['label' => 'Mot de passe'],
+            'second_options' => ['label' => 'Répétez le mot de passe'],
             'mapped' => false,
             'attr' => ['autocomplete' => 'new-password'],
             'constraints' => [
@@ -39,24 +42,17 @@ class RegistrationFormType extends AbstractType
                 new Length([
                     'min' => 6,
                     'minMessage' => 'Your password should be at least {{ limit }} characters',
-                    // max length allowed by Symfony for security reasons
                     'max' => 4096,
                 ]),
             ],
             ])
-        ->add('administrateur')
-        ->add('actif')
-        ->add('campus', EntityType::class,['label'=>'Campus','class'=>Campus::class,'choice_label'=>'nom'])
         ;
-        
     }
 
-    
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'type' => 'edit',
         ]);
     }
 }

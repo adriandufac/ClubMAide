@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Profil{% endblock %}
 
 {% block body %}
-    <h1>Creation de compte</h1>
+    <h1>Profil </h1>
 
         {% for flashError in app.flashes ('verify_email_error') %}
         <div class="alert altert-danger" role="alert">{{ flashError }}</div>    

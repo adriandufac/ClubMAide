@@ -7,9 +7,20 @@
 {% endblock %}
 
 {% block body %}
-{{ form_start(RegistrationFormType) }}
 
-    {{ form_widget(RegistrationFormType) }}
+{% if app.user.id == profil.id %}
 
-{{ form_end(RegistrationFormType) }}
+    {{ form_start(form) }}
+
+        {{ form_widget(form) }}
+        <button type="submit" class="btn">Modififer</button>
+    {{ form_end(form) }}
+
+    {% else %}
+
+    <div>Prénom : {{profil.prenom}} </div>
+{% endif %}
+
+
+
 {% endblock %}
