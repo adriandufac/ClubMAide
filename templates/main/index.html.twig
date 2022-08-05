@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="{{ asset('js/filtrageAccueil.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}
@@ -102,13 +103,17 @@
             <div class="inscrits">
                 <h2>Inscrit</h2>
                 {% for sortie in sorties %}
-                    {% for user in sortie.usersInscrits %}
-                        {% if user.id == app.user.id %}
-                            <div class="inscrit">
-                                X
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+                    {% if sortie.usersInscrits.count > 0%}
+                        {% for user in sortie.usersInscrits %}
+                            {% if user.id == app.user.id %}
+                                <div class="inscrit">
+                                    X
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <div class="inscrit" style="color: white">-</div>
+                    {% endif %}
                 {% endfor %}
             </div>
             <div class="organisateurs">
@@ -127,10 +132,8 @@
                     <div class="action">
                         <a href="#">Afficher</a>
                     </div>
-                    {% endif %}
-
                     {# Si l'état de la sortie est "Ouverte" #}
-                    {% if sortie.etat.libelle == 'Ouverte' %}
+                    {% elseif sortie.etat.libelle == 'Ouverte' %}
                     <div class="action">
                         <a href="#">Afficher</a>
                         {# Si l'utilisateur en cours est inscrit à la sortie présente #}
@@ -150,10 +153,18 @@
                         {% endif %}
                         {% endfor %}
                     </div>
-                    {% endif %}
-                    {# Si l'état de la sortie est "Clôturée" ou "Annulée#}
-                    {% if sortie.etat.libelle == 'Clôturée' or sortie.etat.libelle == 'Annulée' %}
+                    {# Si l'état de la sortie est "Clôturée"#}
+                    {% elseif sortie.etat.libelle == 'Clôturée' %}
+                        {% for user in sortie.usersInscrits %}
+                            {% if user.id == app.user.id and  "now"|date("d/m/Y H:i:s") > sortie.dateLimiteInscription %}
+                                -<a href="#"> Me désinscrire</a>
+                            {% endif %}
+                        {% endfor %}
 
+                     {% elseif sortie.etat.libelle == 'Passée'%}
+                         <div class="action">
+                             <a href="#">Afficher</a>
+                         </div>
                     {% endif %}
                     {# Si l'utilisateur est organisateur mais qu'il n'a pas publié la sortie #}
                 {% endfor %}
@@ -161,6 +172,9 @@
         </div>
     </section>
     <br>
+    <input type="checkbox" id="orga">
+    <input type="text" id="test">
+
     <a href="#" class="create-sortie">Créer une sortie</a>
 </div>
 {% endblock %}

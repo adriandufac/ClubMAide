@@ -9,7 +9,7 @@
                 <li><a href="{{ path('main_page') }}">Accueil</a></li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li><a href="{{ path('gestion_ville') }}">Villes</a></li>
-                <li><a href="#" >Campus</a></li>
+                <li><a href="{{ path('campus_gestion') }}" >Campus</a></li>
             {% endif %}
                 <li><a href="{{ path('update',{'id':app.user.id}) }}" title="profil" >Profil</a></li> 
                 <li><a href="{{ path('app_logout') }}" title="logout" >Déconnexion</a></li> 

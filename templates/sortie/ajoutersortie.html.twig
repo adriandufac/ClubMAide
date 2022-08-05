@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une sortie | {{ parent() }}{% endblock %}
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+    {{ form_start(sortieForm) }}
+
+    {{ form_widget(sortieForm) }}
+
+    {{ form_end(sortieForm) }}
+{% endblock %}
