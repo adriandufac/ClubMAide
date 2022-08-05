@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/new", name="new")
      */
-    public function form(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $em, User $user ): Response
+    public function form(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $em): Response
     {
   
             $user = new User();

@@ -82,11 +82,12 @@ function checkboxOrga(){
             if (organisateurs[i].innerHTML.includes(utilisateur.innerHTML)) {
                 noneAll(i)
                 console.log('on est ds le IF de orga')
+                virerLigne(i);
+
             }else {
                 flexAll(i);
                 // virer le truc que tu n'affiches oas
                 console.log('on est ds le ELSE de orga')
-                virerLigne(i);
             }
         }
     }
