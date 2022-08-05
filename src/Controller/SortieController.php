@@ -24,6 +24,7 @@ class SortieController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
             // redirect page liste des sorties
+            $this->redirectToRoute('gestion_ville');
         }
         return $this->render('sortie/ajoutersortie.html.twig',['sortieForm' =>$sortieForm->createView()]);
 
