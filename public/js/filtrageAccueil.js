@@ -35,19 +35,26 @@ let search = document.getElementById('test');
 // LISTENERS
 Rechercher.addEventListener('click', checkAll)
 
+let tabDesI = [];
 let i =0;
 
 // FONCTIONS
 function checkAll(){ // a n'importe quel event
  // remettre tTOUT ds le tableau
     getTableau();
+    displayall();
     searchBar();
     checkboxPasse();
     checkboxOrga();
-    //checkbox();
+    //checkBoxInscrit();
     console.log('event activé');
 }
 //
+function displayall (){
+    for (let i = 0; i < names.length; i++) {
+        flexAll(i);
+    }
+}
 function searchBar(){
     for (let i = 0; i < names.length; i++) {
         if (names[i].innerHTML.toLowerCase().includes(search.value.toLowerCase())) {
@@ -56,11 +63,23 @@ function searchBar(){
         }else {
             console.log('yoyoyoy')
             noneAll(i)
-            // virer le truc que tu n'affiches oas
-            virerLigne(i);
+            //ajoute au tableau des trucs a virer
+            tabDesI.push(i);
         }
     }
+    console.log('tabDesI :');
+    console.log (tabDesI);
+    console.log('LE TABLEAU AVANT : ')
+    console.log(names);
+    //on vire a la fin sinon ca casse notre boucle
+    for ( j = tabDesI.length-1;j>=0;j--){
+        virerLigne(tabDesI[j]);
+    }
+    console.log('LE TABLEAU APRES : ')
+    console.log(names);
+    tabDesI = [];
 }
+
 // vérifier quand on peut créer des users
 function checkboxPasse(){
     if(isPassees.checked){
@@ -70,32 +89,119 @@ function checkboxPasse(){
             }else {
                 noneAll(i)
                 // virer le truc que tu n'affiches oas
-                virerLigne(i);
+                tabDesI.push(i);
             }
         }
+        //ON EST OBLIGE DE SUPPRIMER LES LIGNES DU TABLEAU A LA TTE FIN SINON CA FUCKED UP NOTRE BOUCLE FOR
+        console.log('LE TABLEAU AVANT : ')
+        console.log(names);
+        for ( j = tabDesI.length-1;j>=0;j--){
+            virerLigne(tabDesI[j]);
+        }
+        console.log('LE TABLEAU APRES : ')
+        console.log(names);
+        //virerLigne(i);
+        console.log('tabDesI :');
+        console.log (tabDesI);
+        tabDesI = [];
+
     }
 }
 
 function checkboxOrga(){
-    if(!isOrganisateur.checked){
+    if(isOrganisateur.checked){
+        console.log ('ON RECOIT DANS ORGA ' + names.length + 'elements')
         for (let i = 0; i < names.length; i++) {
             if (organisateurs[i].innerHTML.includes(utilisateur.innerHTML)) {
-                noneAll(i)
+                flexAll(i);
+                console.log(i);
                 console.log('on est ds le IF de orga')
-                virerLigne(i);
 
             }else {
-                flexAll(i);
+                console.log('EFFACEMENT ' + i);
+                noneAll(i)
+
+                tabDesI.push(i);
                 // virer le truc que tu n'affiches oas
                 console.log('on est ds le ELSE de orga')
             }
         }
+        console.log('tabDesI :');
+        console.log (tabDesI);
+        console.log('LE TABLEAU AVANT : ')
+        console.log(names);
+        for ( j = tabDesI.length-1;j>=0;j--){
+            virerLigne(tabDesI[j]);
+        }
+        console.log('LE TABLEAU APRES : ')
+        console.log(names);
+        //virerLigne(i);
+
+        tabDesI = [];
+    }
+}
+
+function checkBoxInscrit(){
+
+    if(isInscrit.checked && ! isPasInscrit){
+        for (let i = 0; i < names.length; i++) {
+            if (true/*checker si on est inscrit */) {
+                flexAll(i);
+                console.log(i);
+                console.log('on est ds le IF de orga')
+
+            }else {
+                console.log('EFFACEMENT ' + i);
+                noneAll(i)
+
+                tabDesI.push(i);
+                // virer le truc que tu n'affiches oas
+                console.log('on est ds le ELSE de orga')
+            }
+        }
+        console.log('tabDesI :');
+        console.log (tabDesI);
+        console.log('LE TABLEAU AVANT : ')
+        console.log(names);
+        for ( j = tabDesI.length-1;j>=0;j--){
+            virerLigne(tabDesI[j]);
+        }
+        console.log('LE TABLEAU APRES : ')
+        console.log(names);
+        tabDesI = [];
+    }
+
+    if(!isInscrit.checked &&  isPasInscrit){
+        for (let i = 0; i < names.length; i++) {
+            if (true/*checker si on est pas inscrit */) {
+                flexAll(i);
+                console.log(i);
+                console.log('on est ds le IF de orga')
+
+            }else {
+                console.log('EFFACEMENT ' + i);
+                noneAll(i)
+
+                tabDesI.push(i);
+                // virer le truc que tu n'affiches oas
+                console.log('on est ds le ELSE de orga')
+            }
+        }
+        console.log('tabDesI :');
+        console.log (tabDesI);
+        console.log('LE TABLEAU AVANT : ')
+        console.log(names);
+        for ( j = tabDesI.length-1;j>=0;j--){
+            virerLigne(tabDesI[j]);
+        }
+        console.log('LE TABLEAU APRES : ')
+        console.log(names);
+        tabDesI = [];
     }
 }
 
 function virerLigne(i) {
-    console.log('LE TABLEAU AVANT : ')
-    console.log(names);
+
     names.splice(i, 1);
     dates.splice(i, 1);
     clotures.splice(i, 1);
@@ -104,8 +210,7 @@ function virerLigne(i) {
     inscrits.splice(i, 1);
     organisateurs.splice(i, 1);
     actions.splice(i, 1);
-    console.log('LE TABLEAU APRES : ')
-    console.log(names);
+
 }
 
 // AFFICHAGE
