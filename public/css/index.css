@@ -17,7 +17,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .tab h2{
@@ -113,10 +113,10 @@
 }
 
 .infos{
-display: flex;
-flex-direction: column;
-justify-content: flex-end;
-align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
 }
 .research{
     width: 80%;
