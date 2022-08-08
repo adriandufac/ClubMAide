@@ -199,9 +199,13 @@ class MainController extends AbstractController
     public function gestioncampus(CampusRepository  $campusRepository, Request $request,EntityManagerInterface $entityManager): Response
     {
         $campus = new Campus();
+        $campus2 = new Campus();
 
         $campusform = $this->createForm(CampusType::class,$campus);
         $campusform->handleRequest($request);
+
+        $campusform2 = $this->createForm(CampusType::class,$campus2);
+        $campusform2->handleRequest($request);
 
         if($campusform->isSubmitted()){
             if ($campus->getNom() != ""){
@@ -214,7 +218,14 @@ class MainController extends AbstractController
         else {
             $campus = $campusRepository-> findAll();
         }
-        return $this->render('main/gestioncampus.html.twig',["campus" => $campus,'campusform' =>$campusform->createView()]);
+
+        if ($campusform2->isSubmitted()){
+            $entityManager->persist($campus2);
+            $entityManager->flush();
+            return $this->redirectToRoute('campus_gestion');
+        }
+
+        return $this->render('main/gestioncampus.html.twig',["campus" => $campus,'campusform' =>$campusform->createView(), 'campusform2' =>$campusform2->createView()]);
     }
 
     /**
@@ -252,7 +263,7 @@ class MainController extends AbstractController
     {
         $entityManager->remove($campusRepository->find($id));
         $entityManager->flush();
-        return $this->redirectToRoute('gestion_campus');
+        return $this->redirectToRoute('campus_gestion');
     }
 }
 

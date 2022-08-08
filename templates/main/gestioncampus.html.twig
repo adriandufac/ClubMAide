@@ -13,17 +13,31 @@
             <button type="submit" name="submit">Rechercher</button>
             {{ form_end(campusform) }}
         </div>
-        <div id="container">
-            <div id="campus">
-                <h2>Campus</h2>
-                {% for camp in campus %}
-                    <p>{{ camp.nom }}</p>
-                {% endfor %}
-            </div>
-        </div>
-        <div id="actions">
+    {{ form_start(campusform2) }}
+        <div class="container">
+            <div class="tab">
+            <h2>Campus</h2>
             <h2>Actions</h2>
-                <p><a href="{{ path('campus_edit',{'id':campus.id}) }}">modifier</a> - <a href="{{ path('campus_delete',{'id':campus.id}) }}">supprimer</a></p>
-                <p><a href="{{ path('gestion_ville') }}"> <button>Ajouter</button></a></p>
+            </div>
+            {% for camp in campus %}
+                <div class="tab">
+            <div class="campus">
+                <p>{{ camp.nom }}</p>
+            </div>
+                <div class="actions">
+                <p><a href="{{ path('campus_edit',{'id':camp.id}) }}">modifier</a> - <a href="{{ path('campus_delete',{'id':camp.id}) }}">supprimer</a></p>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="tab">
+                <div class="campus">
+                    <p>{{ form_widget(campusform2) }}</p>
+                </div>
+                <div class="actions">
+                <p><a href="{{ path('campus_gestion') }}"> <button>Ajouter</button></a></p>
+                </div>
+            </div>
+            {{ form_end(campusform2) }}
         </div>
+
 {% endblock %}
