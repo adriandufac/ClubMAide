@@ -10,56 +10,63 @@
 {% endblock %}
 
 {% block body %}
-    <div class="utilisateur">Participant : <p id="utilisateur">{{ app.user.pseudo }}</p></div>
+    <div class="infos">
+        <div class="utilisateur">Participant : <p id="utilisateur">{{ app.user.pseudo }}</p></div>
+        <div class="dateDuJour">Date du jour : <p id="dateDuJour"> {{ "now"|date("d/m/Y H:i") }}</div>
+    </div>
+
 <div class="container">
     <div class="title">
         <h2>Filtrer les sorties</h2>
     </div>
-    {{ form_start(filtreForm) }}
-    <section class="filtrage">
+    <div class="research">
+        {{ form_start(filtreForm) }}
+        <section class="filtrage">
 
-        <div class="left-section">
-            <div class="form-group-left">
-                <div class="campus">
-                {{ form_label(filtreForm.campus, 'Campus') }}
-                {{ form_widget(filtreForm.campus, {'attr': {'class': 'form-control'}}) }}
-                </div>
-                <div class="search-bar">
-                    {{ form_label(filtreForm.nom_sortie, 'Le nom de la sortie contient :') }}
-                    {{ form_widget(filtreForm.nom_sortie, {'attr': {'class': 'form-control'}})}}
-                </div>
-                <div class="dates-label">
-                    {{ form_label(filtreForm.date_debut, 'Entre') }}
-                    {{ form_widget(filtreForm.date_debut, {'attr': {'class': 'form-control js-datepicker'}})}}
-                    {{ form_label(filtreForm.date_fin, 'Et') }}
-                    {{ form_widget(filtreForm.date_fin, {'attr': {'class': 'form-control js-datepicker'},})}}
+            <div class="left-section">
+                <div class="form-group-left">
+                    <div class="campus">
+                    {{ form_label(filtreForm.campus, 'Campus') }}
+                    {{ form_widget(filtreForm.campus, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="search-bar">
+                        {{ form_label(filtreForm.nom_sortie, 'Le nom de la sortie contient :') }}
+                        {{ form_widget(filtreForm.nom_sortie, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                    <div class="dates-label">
+                        {{ form_label(filtreForm.date_debut, 'Entre') }}
+                        {{ form_widget(filtreForm.date_debut, {'attr': {'class': 'form-control js-datepicker'}})}}
+                        {{ form_label(filtreForm.date_fin, 'Et') }}
+                        {{ form_widget(filtreForm.date_fin, {'attr': {'class': 'form-control js-datepicker'},})}}
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="right-section">
-            <div class="form-group-right">
-                <div class="isOrganisateur">
-                    {{ form_label(filtreForm.isOrganisateur) }}
-                    {{ form_widget(filtreForm.isOrganisateur, {'attr': {'class': 'form-control'}}) }}
-                </div>
-                <div class="isInscrit">
-                    {{ form_label(filtreForm.isInscrit) }}
-                    {{ form_widget(filtreForm.isInscrit, {'attr': {'class': 'form-control'}}) }}
-                </div>
-                <div class="isPasInscrit">
-                    {{ form_label(filtreForm.isPasInscrit) }}
-                    {{ form_widget(filtreForm.isPasInscrit, {'attr': {'class': 'form-control'}}) }}
-                </div>
-                <div class="sorties-passees">
-                    {{ form_label(filtreForm.sortiesPassees) }}
-                    {{ form_widget(filtreForm.sortiesPassees, {'attr': {'class': 'form-control'}}) }}
+            <div class="right-section">
+                <div class="form-group-right">
+                    <div class="isOrganisateur">
+                        {{ form_label(filtreForm.isOrganisateur) }}
+                        {{ form_widget(filtreForm.isOrganisateur, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="isInscrit">
+                        {{ form_label(filtreForm.isInscrit) }}
+                        {{ form_widget(filtreForm.isInscrit, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="isPasInscrit">
+                        {{ form_label(filtreForm.isPasInscrit) }}
+                        {{ form_widget(filtreForm.isPasInscrit, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="sorties-passees">
+                        {{ form_label(filtreForm.sortiesPassees) }}
+                        {{ form_widget(filtreForm.sortiesPassees, {'attr': {'class': 'form-control'}}) }}
+                    </div>
                 </div>
             </div>
-        </div>
-        {{ form_end(filtreForm) }}
+            {{ form_end(filtreForm) }}
 
-        </section>
-    <button id="search">Rechercher</button>
+            </section>
+        <button id="search">Rechercher</button>
+    </div>
+
 
     <section class="tab-section">
         <div class="tab">
@@ -127,7 +134,7 @@
                 <h2>Organisateur</h2>
                 {% for sortie in sorties %}
                         <div class="organisateur">
-                           <a href="#{# {{ sortie.userOrganisateur.id}} #}" class="orga">{{ sortie.userOrganisateur.pseudo }}</a>
+                           <a href="{# {{ sortie.userOrganisateur.id}} #}" class="orga">{{ sortie.userOrganisateur.pseudo }}</a>
                         </div>
                 {% endfor %}
             </div>
@@ -137,12 +144,12 @@
                     {# Si l'état de la sortie est 'Activité en cours' #}
                     {% if sortie.etat.libelle ==  'Activité en cours' %}
                     <div class="action">
-                        <a href="#">Afficher</a>
+                        <a href="{{path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
                     </div>
                     {# Si l'état de la sortie est "Ouverte" #}
                     {% elseif sortie.etat.libelle == 'Ouverte' %}
                     <div class="action">
-                        <a href="#">Afficher</a>
+                        <a href="{{path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
                         {# Si l'utilisateur en cours est inscrit à la sortie présente #}
                         {% for user in sortie.usersInscrits %}
                             {% if user.id == app.user.id %}
@@ -152,28 +159,27 @@
                         {# Si l'utilisateur en cours est l'organisateur de la sortie #}
                         {% if app.user.id == sortie.userOrganisateur.id %}
                          -<a href="#"> Annuler</a>
+
                         {% endif %}
                         {# Si l'utilisateur en cours n'est pas inscrit à la sortie et n'est pas l'organisateur #}
-                        {% for user in sortie.usersInscrits %}
-                        {% if app.user.id != sortie.userOrganisateur.id%}
+                        {% if app.user.id != sortie.userOrganisateur.id %}
                             -<a href="#"> M'inscrire</a>
                         {% endif %}
-                        {% endfor %}
                     </div>
                     {# Si l'état de la sortie est "Clôturée"#}
                     {% elseif sortie.etat.libelle == 'Clôturée' %}
                         <div class="action">
-                            <a href="#">Afficher</a>
-                        </div>
+                            <a href="{{path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
+
                         {% for user in sortie.usersInscrits %}
-                            {% if user.id == app.user.id and  "now"|date("d/m/Y H:i:s") > sortie.dateLimiteInscription %}
+                            {% if user.id == app.user.id and "now"|date("d/m/Y H:i:s") < sortie.dateHeureDebut %}
                                 -<a href="#"> Me désinscrire</a>
                             {% endif %}
                         {% endfor %}
-
+                        </div>
                      {% elseif sortie.etat.libelle == 'Passée'%}
                          <div class="action">
-                             <a href="#">Afficher</a>
+                             <a href="{{path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
                          </div>
                     {% endif %}
                     {# Si l'utilisateur est organisateur mais qu'il n'a pas publié la sortie #}
@@ -181,15 +187,8 @@
             </div>
         </div>
     </section>
-    <br>
-
-
-    <a href="#" class="create-sortie">Créer une sortie</a>
-
-    <div>{{ dump2 }}</div>
-    <div>{{ dump3 }}</div>
-    <div>{{ dump4 }}</div>
-    <div>{{ dump5 }}</div>
-
+    <div class="redirect-sortie">
+        <a href="#" class="create-sortie">Créer une sortie</a>
+    </div>
 </div>
 {% endblock %}
