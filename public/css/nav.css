@@ -55,7 +55,6 @@ header h1{
 main{
     display: flex;
     flex-direction: column;
-    margin-top: 100px;
 }
 
 @keyframes rgb {

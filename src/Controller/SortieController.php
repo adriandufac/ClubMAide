@@ -29,4 +29,14 @@ class SortieController extends AbstractController
         return $this->render('sortie/ajoutersortie.html.twig',['sortieForm' =>$sortieForm->createView()]);
 
     }
+
+    /**
+     * @Route("/show/{id}", name="sortie_show")
+     */
+    public function show(Sortie $sortie){
+
+
+        return $this->render('sortie/show.html.twig',['sortie' => $sortie]);
+
+    }
 }
