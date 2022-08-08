@@ -1,0 +1,17 @@
+#campus_modif_nom{
+    width: 20%;
+}
+
+#campus_modif div label{
+    font-weight: bold;
+}
+
+#campus_modif div{
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+form{
+    width: 100%;
+}
