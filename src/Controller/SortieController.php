@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Form\CreerUneSortieType;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,9 +34,9 @@ class SortieController extends AbstractController
     /**
      * @Route("/show/{id}", name="sortie_show")
      */
-    public function show(Sortie $sortie){
+    public function show(Sortie $sortie, SortieRepository $sortieRepository, int $id){
 
-
+        $sortie = ($sortieRepository->find($id));
         return $this->render('sortie/show.html.twig',['sortie' => $sortie]);
 
     }

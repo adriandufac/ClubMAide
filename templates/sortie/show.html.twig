@@ -1,12 +1,92 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/show_sortie.css') }}">
+{% endblock %}
+{% block title %}
+    Detail sortie | {{ parent() }}
+{% endblock %}
 
 {% block body %}
 
+    <div class="container">
+        <div class="tab">
+            <div class="leftside">
+                <div class="name">
+                    <h2>Nom de la sortie :</h2>
+                    {{ sortie.nom }}
+                </div>
+                <div class="date-heure-debut">
+                    <h2>Date et heure de la sortie :</h2>
+                    {{ sortie.dateHeureDebut | date('d/m/Y H:i') }}
+                </div>
+                <div class="date-limite-inscription">
+                    <h2>Date limite d'inscription :</h2>
+                    {{ sortie.dateLimiteInscription | date('d/m/Y H:i') }}
+                </div>
+                <div class="places">
+                    <h2>Nombre de places :</h2>
+                    {{ sortie.nbInscriptionsMax }}
+                </div>
+                <div class="duree">
+                    <h2>Durée :</h2>
+                    {{ sortie.duree }}
+                    {% if sortie.duree > 1 %}
+                    heures
+                    {% else %}
+                    heure
+                    {% endif %}
+                </div>
+                <div class="description">
+                    <h2>Description :</h2>
+                    {{ sortie.infosSortie }}
+                </div>
+            </div>
+
+            <div class="rightside">
+                <div class="campus">
+                    <h2>Campus :</h2>
+                    {{ sortie.campus.nom }}
+                </div>
+                <div class="lieu">
+                    <h2>Lieu :</h2>
+                    {{ sortie.lieu.nom }}
+                </div>
+                <div class="rue">
+                    <h2>Rue :</h2>
+                    {{ sortie.lieu.rue }}
+                </div>
+                <div class="cp">
+                    <h2>Code postal :</h2>
+                    {{ sortie.lieu.ville.codePostal }}
+                </div>
+                <div class="latitude">
+                    <h2>Latitude :</h2>
+                    {{ sortie.lieu.latitude }}
+                </div>
+                <div class="longitude">
+                    <h2>Longitude :</h2>
+                    {{ sortie.lieu.longitude }}
+                </div>
+            </div>
+        </div>
+        <div class="list-users">
+            <h2>Liste des participants inscrits :</h2>
+            <div class="line">
+                <h2>Pseudo</h2>
+                <h2>Nom</h2>
+            </div>
+            {% for user in sortie.usersInscrits %}
+            <div class="user-pseudo">
+                {{ user.pseudo }}
+            </div>
+            <div class="user-nom">
+                {{ user.nom }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
 {% endblock %}
 
-{% block title %}
-
-{% endblock %}
 

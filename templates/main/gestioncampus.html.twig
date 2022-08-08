@@ -13,17 +13,30 @@
             <button type="submit" name="submit">Rechercher</button>
             {{ form_end(campusform) }}
         </div>
-        <div id="container">
-            {% for camp in campus %}
-            <div id="campus">
-                <h2>Campus</h2>
-                <p>{{ camp.nom }}</p>
-            </div>
-                <div id="actions">
-                    <h2>Actions</h2>
+        <  {{ form_start(campusform2) }}
+    <div class="container">
+        <div class="tab">
+            <h2>Campus</h2>
+            <h2>Actions</h2>
+        </div>
+        {% for camp in campus %}
+            <div class="tab">
+                <div class="campus">
+                    <p>{{ camp.nom }}</p>
+                </div>
+                <div class="actions">
                     <p><a href="{{ path('campus_edit',{'id':camp.id}) }}">modifier</a> - <a href="{{ path('campus_delete',{'id':camp.id}) }}">supprimer</a></p>
                 </div>
-            {% endfor %}
+            </div>
+        {% endfor %}
+        <div class="tab">
+            <div class="campus">
+                <p>{{ form_widget(campusform2) }}</p>
+            </div>
+            <div class="actions">
+                <p><a href="{{ path('campus_gestion') }}"> <button>Ajouter</button></a></p>
+            </div>
         </div>
-    <p><a href="{{ path('gestion_ville') }}"> <button>Ajouter</button></a></p>
+        {{ form_end(campusform2) }}
+    </div>
 {% endblock %}
