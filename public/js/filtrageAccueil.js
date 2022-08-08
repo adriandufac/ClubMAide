@@ -10,7 +10,6 @@ let organisateurs = Array.from(document.querySelectorAll('.organisateur'));
 let actions = Array.from(document.querySelectorAll('.action'));
 let Rechercher = document.getElementById('search');
 let utilisateur = document.getElementById('utilisateur');
-let orgas = Array.from(document.querySelectorAll('.orga'));
 
 function getTableau() {
     console.log('ON RECHARGE LE TABLEAU')
@@ -30,7 +29,11 @@ let isInscrit = document.getElementById('accueil_filtrage_form_isInscrit');
 let isPasInscrit = document.getElementById('accueil_filtrage_form_isPasInscrit');
 let isPassees = document.getElementById('accueil_filtrage_form_sortiesPassees');
 
-let search = document.getElementById('test');
+let search = document.getElementById('accueil_filtrage_form_nom_sortie');
+let campusBar = document.getElementById('accueil_filtrage_form_campus');
+let dateRechercheDebut = document.getElementById('accueil_filtrage_form_date_debut');
+let dateRechercheFin = document.getElementById('accueil_filtrage_form_date_fin');
+
 
 // LISTENERS
 Rechercher.addEventListener('click', checkAll)
@@ -39,14 +42,26 @@ let tabDesI = [];
 let i =0;
 
 // FONCTIONS
+
+let dateFinRecherche;
+let dateDebutRecherche;
+
 function checkAll(){ // a n'importe quel event
  // remettre tTOUT ds le tableau
+    console.log('OBJET DATE RECHERCHE FIN : ')
+    console.log(dateRechercheFin.value)
+    dateFinRecherche = new Date(dateRechercheFin.value)
+    dateDebutRecherche = new Date(dateRechercheDebut.value)
+    console.log(dateDebutRecherche)
+    console.log(dateFinRecherche)
     getTableau();
     displayall();
     searchBar();
     checkboxPasse();
     checkboxOrga();
-    //checkBoxInscrit();
+    checkBoxInscrit();
+    checkCampus();
+    checkDates();
     console.log('event activé');
 }
 //
@@ -143,12 +158,12 @@ function checkboxOrga(){
 
 function checkBoxInscrit(){
 
-    if(isInscrit.checked && ! isPasInscrit){
+    if(isInscrit.checked && !isPasInscrit.checked){
         for (let i = 0; i < names.length; i++) {
-            if (true/*checker si on est inscrit */) {
+            if (inscrits[i].innerHTML.includes('X')) {
                 flexAll(i);
                 console.log(i);
-                console.log('on est ds le IF de orga')
+                console.log('on est ds le IF de INSCRIT')
 
             }else {
                 console.log('EFFACEMENT ' + i);
@@ -156,7 +171,7 @@ function checkBoxInscrit(){
 
                 tabDesI.push(i);
                 // virer le truc que tu n'affiches oas
-                console.log('on est ds le ELSE de orga')
+                console.log('on est ds le ELSE de INSCRIT')
             }
         }
         console.log('tabDesI :');
@@ -171,12 +186,12 @@ function checkBoxInscrit(){
         tabDesI = [];
     }
 
-    if(!isInscrit.checked &&  isPasInscrit){
+    if(!isInscrit.checked &&  isPasInscrit.checked){
         for (let i = 0; i < names.length; i++) {
-            if (true/*checker si on est pas inscrit */) {
+            if (inscrits[i].innerHTML.includes('-')) {
                 flexAll(i);
                 console.log(i);
-                console.log('on est ds le IF de orga')
+                console.log('on est ds le IF de INSCRIT')
 
             }else {
                 console.log('EFFACEMENT ' + i);
@@ -184,7 +199,7 @@ function checkBoxInscrit(){
 
                 tabDesI.push(i);
                 // virer le truc que tu n'affiches oas
-                console.log('on est ds le ELSE de orga')
+                console.log('on est ds le ELSE de INSCRIT')
             }
         }
         console.log('tabDesI :');
@@ -196,6 +211,70 @@ function checkBoxInscrit(){
         }
         console.log('LE TABLEAU APRES : ')
         console.log(names);
+        tabDesI = [];
+    }
+}
+
+function checkCampus(){
+    if(campusBar.value != ''){
+        console.log('campus BAR NOT NULL')
+        for (let i = 0; i < names.length; i++) {
+            if(names[i].getAttribute("campus") === campusBar.value){
+                flexAll(i);
+            }
+            else{
+                noneAll(i)
+                tabDesI.push(i);
+            }
+        }
+        for ( j = tabDesI.length-1;j>=0;j--){
+            virerLigne(tabDesI[j]);
+        }
+        tabDesI = [];
+    } else{
+        console.log('campus BAR NULL')
+        for (let i = 0; i < names.length; i++) {
+            flexAll(i)
+        }
+    }
+
+}
+
+function checkDates(){
+    if(dateRechercheDebut.value !== '' && dateRechercheFin.value !== ''){
+
+        console.log('DATES NOT NULL');
+        for (let i = 0; i < names.length; i++) {
+            console.log('la date qu on crée !')
+            let creationDate = (dates[i].innerHTML).split('/')
+            creationDatebis = creationDate[2].split(' ')
+            let DateString = creationDatebis[0]+'-'+  creationDate[1] +'-'+ creationDate[0]
+            console.log(creationDate)
+            console.log('dazjfniazeoh')
+            console.log(DateString)
+
+
+            console.log(new Date(DateString))
+            console.log ('Date Recherche DEBUT ')
+            console.log(dateDebutRecherche)
+            console.log ('Date de la sortie ')
+            console.log(new Date(DateString))
+            console.log ('Date de FIN ')
+            console.log(dateFinRecherche)
+            if(dateDebutRecherche <= new Date(DateString) && new Date(DateString) <= dateFinRecherche){
+                console.log('On passe dans le IF des DATES')
+
+                flexAll(i);
+            }
+            else{
+                console.log('KEBAB')
+                noneAll(i)
+                tabDesI.push(i);
+            }
+        }
+        for ( j = tabDesI.length-1;j>=0;j--){
+            virerLigne(tabDesI[j]);
+        }
         tabDesI = [];
     }
 }
@@ -235,8 +314,3 @@ function noneAll(i){
     organisateurs[i].style.display = 'none';
     actions[i].style.display = 'none';
 }
-
-
-
-
-

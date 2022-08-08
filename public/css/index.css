@@ -51,7 +51,7 @@ form{
     font-size: 1.5em;
     text-align: left;
 }
-.nom, .dates, .cloture, .places, .etats, .inscrit, .organisateur{
+.nom, .dates, .clotures, .places, .etats, .inscrits, .organisateur{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -71,6 +71,7 @@ form{
     align-items: center;
     gap: 15px
 }
+
 
 #search, .create-sortie{
     padding: 5px;

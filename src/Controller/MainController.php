@@ -216,5 +216,43 @@ class MainController extends AbstractController
         }
         return $this->render('main/gestioncampus.html.twig',["campus" => $campus,'campusform' =>$campusform->createView()]);
     }
+
+    /**
+     * @Route("/campus_edit/{id}", name="campus_edit")
+     */
+
+    public function editcampus(Request $request,int $id,CampusRepository  $campusRepository,EntityManagerInterface $entityManager): Response
+    {
+        $Campus =($campusRepository->find($id));
+
+        $CampusForm = $this->createForm(CampusType::class,$Campus);
+
+        $CampusForm->handleRequest($request);
+        //si on submit le formulaire
+        if($CampusForm->isSubmitted()){
+            //ajout de la produit en base
+
+            $entityManager->persist($Campus);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Campus modifié!');
+            //on affiche la liste des produits
+            return $this->redirectToRoute('campus_gestion');
+        }
+
+        //on envoit le formulaire a la page d'ajout de category
+        return $this->render('main/gestioncampus.html.twig',['campus' =>$CampusForm->createView()]);
+    }
+
+    /**
+     * @Route("/campus_delete/{id}", name="campus_delete")
+     */
+
+    public function deletecampus(int $id,CampusRepository $campusRepository,EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($campusRepository->find($id));
+        $entityManager->flush();
+        return $this->redirectToRoute('gestion_campus');
+    }
 }
 

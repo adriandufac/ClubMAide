@@ -66,7 +66,7 @@
             <div class="nom">
                 <h2>Nom de la sortie</h2>
                 {% for sortie in sorties %}
-                <div class="name">
+                <div class="name" campus="{{ sortie.getCampus.getId }}">
                     {{ sortie.nom }}
                 </div>
                 {% endfor %}
@@ -74,9 +74,7 @@
             <div class="dates">
                 <h2>Date de la sortie</h2>
                 {% for sortie in sorties %}
-                    <div class="date_debut">
-                        {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}
-                    </div>
+                    <div class="date_debut">{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</div>
                 {% endfor %}
             </div>
             <div class="clotures">
@@ -107,17 +105,21 @@
                 <h2>Inscrit</h2>
                 {% for sortie in sorties %}
                     {% if sortie.usersInscrits.count > 0%}
+                        {% set isParticipant = 'false' %}
                         {% for user in sortie.usersInscrits %}
                             {% if user.id == app.user.id %}
-                                <div class="inscrit">
-                                    X
-                                </div>
-                            {% else %}
-                                <div class="inscrit" style="color: white"></div>
+                                {% set isParticipant = 'true' %}
                             {% endif %}
                         {% endfor %}
+                        {% if isParticipant == 'true' %}
+                            <div class="inscrit">X</div>
+
+                        {% else %}
+                            <div class="inscrit" style="color: white">-</div>
+                        {% endif %}
+
                     {% else %}
-                        <div class="inscrit" style="color: white"></div>
+                        <div class="inscrit" style="color: white">-</div>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -153,7 +155,7 @@
                         {% endif %}
                         {# Si l'utilisateur en cours n'est pas inscrit à la sortie et n'est pas l'organisateur #}
                         {% for user in sortie.usersInscrits %}
-                        {% if app.user.id != sortie.userOrganisateur.id and app.user.id != user.id%}
+                        {% if app.user.id != sortie.userOrganisateur.id%}
                             -<a href="#"> M'inscrire</a>
                         {% endif %}
                         {% endfor %}
@@ -180,8 +182,7 @@
         </div>
     </section>
     <br>
-    <input type="checkbox" id="orga">
-    <input type="search" id="test">
+
 
     <a href="#" class="create-sortie">Créer une sortie</a>
 
