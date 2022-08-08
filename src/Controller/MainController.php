@@ -7,6 +7,7 @@ use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\AccueilFiltrageFormType;
+use App\Form\CampusModifType;
 use App\Form\CampusType;
 use App\Form\VilleAddType;
 use App\Form\VilleSearchType;
@@ -201,7 +202,7 @@ class MainController extends AbstractController
         $campus = new Campus();
         $campus2 = new Campus();
 
-        $campusform = $this->createForm(CampusType::class,$campus);
+        $campusform = $this->createForm(CampusModifType::class,$campus);
         $campusform->handleRequest($request);
 
         $campusform2 = $this->createForm(CampusType::class,$campus2);
@@ -236,18 +237,18 @@ class MainController extends AbstractController
     {
         $Campus =($campusRepository->find($id));
 
-        $CampusForm = $this->createForm(CampusType::class,$Campus);
+        $CampusForm = $this->createForm(CampusModifType::class,$Campus);
 
         $CampusForm->handleRequest($request);
         //si on submit le formulaire
         if($CampusForm->isSubmitted()){
-            //ajout de la produit en base
+            //ajout du campus en base
 
             $entityManager->persist($Campus);
             $entityManager->flush();
 
             $this->addFlash('success', 'Campus modifié!');
-            //on affiche la liste des produits
+            //on affiche la liste des campus
             return $this->redirectToRoute('campus_gestion');
         }
 
