@@ -253,7 +253,7 @@ class MainController extends AbstractController
         }
 
         //on envoit le formulaire a la page d'ajout de category
-        return $this->render('main/gestioncampus.html.twig',['campus' =>$CampusForm->createView()]);
+        return $this->render('main/campus_edit.html.twig',['campusform' =>$CampusForm->createView()]);
     }
 
     /**
