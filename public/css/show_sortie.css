@@ -46,3 +46,9 @@
 .user-pseudo, .user-nom{
     width: 100%;
 }
+.annulation{
+    font-size: 2em;
+    color: #ee0c0c;
+    border: 2px solid red;
+    padding: 3px;
+}

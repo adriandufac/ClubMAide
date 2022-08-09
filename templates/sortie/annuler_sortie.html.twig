@@ -2,14 +2,44 @@
 
 {% block title %}Annuler une sortie | {{ parent() }}{% endblock %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/annuler_sortie.css') }}">
+{% endblock %}
+
 {% block body %}
-    <h1>Annuler une sortie</h1>
-    <p>
+    <div class="container">
+        <h1>Annuler une sortie</h1>
         {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Enregister" />
-        <input type="reset" value="Annuler" />
-        {{ form_end(form) }}
-    </p>
+        <div class="form-box">
+            <div class="name">
+                <h2>Nom de la sortie :</h2>
+                <p>{{ sortie.nom }}</p>
+            </div>
+            <div class="date">
+                <h2>Date de la sortie :</h2>
+                <p>{{ sortie.dateHeureDebut|date('d/m/Y') }}</p>
+            </div>
+            <div class="campus">
+                <h2>Campus :</h2>
+                <p>{{ sortie.campus }}</p>
+            </div>
+            <div class="lieu">
+                <h2>Lieu :</h2>
+                <p>{{ sortie.lieu.nom }} {{ sortie.lieu.rue }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</p>
+            </div>
+            <div class="motif">
+                <strong>{{ form_label(form.infosSortie) }} :</strong>
+                {{ form_widget(form.infosSortie) }}
+            </div>
+        </div>
+
+            {{ form_widget(form) }}
+        <div class="buttons">
+            <input type="submit" value="Enregister" class="enregister" />
+            <input type="reset" value="Annuler" class="annuler" />
+        </div>
+
+            {{ form_end(form) }}
+    </div>
 {% endblock %}
 

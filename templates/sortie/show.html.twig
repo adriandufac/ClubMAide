@@ -10,6 +10,11 @@
 {% block body %}
 
     <div class="container">
+        {% if sortie.etat.libelle == 'Annulée' %}
+            <div class="annulation">
+                Sortie Annulée
+            </div>
+        {% endif %}
         <div class="tab">
             <div class="leftside">
                 <div class="name">
@@ -38,8 +43,13 @@
                     {% endif %}
                 </div>
                 <div class="description">
+                    {% if sortie.etat.libelle != 'Annulée' %}
                     <h2>Description :</h2>
                     {{ sortie.infosSortie }}
+                    {% else %}
+                    <h2>Motif d'annulation</h2>
+                    {{ sortie.infosSortie }}
+                    {% endif %}
                 </div>
             </div>
 
@@ -70,6 +80,7 @@
                 </div>
             </div>
         </div>
+        {% if sortie.etat.libelle != 'Annulée' %}
         <div class="list-users">
             <h2>Liste des participants inscrits :</h2>
             <div class="line">
@@ -87,6 +98,7 @@
                 </div>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
 {% endblock %}
 
