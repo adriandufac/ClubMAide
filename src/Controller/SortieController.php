@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\AnnulerSortieType;
 use App\Form\CreerUneSortieType;
+use App\Form\LieuType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
@@ -23,30 +24,24 @@ class SortieController extends AbstractController
     /**
      * @Route("/créer", name="sortie_créer")
      */
-    public function créer(EntityManagerInterface $entityManager, Request $request,EtatRepository  $etatRepository,UserRepository $userRepository, LieuRepository $lieuRepository){
+    public function créer(EntityManagerInterface $entityManager, Request $request,EtatRepository  $etatRepository,UserRepository $userRepository){
 
         $sortie =new Sortie();
-        $lieu = new Lieu();
+
 
         $sortieForm = $this->createForm(CreerUneSortieType::class,$sortie);
         $sortieForm->handleRequest($request);
 
-        $lieuForm = $this->createForm(lieuType::class,$lieu);
-
-
-        if($sortieForm->isSubmitted() && $lieuForm->isSubmitted()){
-            $entityManager->persist($lieu);
-            $entityManager->flush();
+        if($sortieForm->isSubmitted()){
 
             $sortie->setEtat($etatRepository->findOneBy(['libelle'=>'Créée']));
             $sortie->setUserOrganisateur($userRepository->findOneBy(['email'=>$this->getUser()->getUserIdentifier()]));
-            $sortie->setLieu($lieuRepository->find($lieu->getId()));
             $entityManager->persist($sortie);
             $entityManager->flush();
             // redirect page liste des sorties
             return $this->redirectToRoute('main_page');
         }
-        return $this->render('sortie/ajoutersortie.html.twig',['sortieForm' =>$sortieForm->createView(),'lieuForm'=> $lieuForm->createView()]);
+        return $this->render('sortie/ajoutersortie.html.twig',['sortieForm' =>$sortieForm->createView(),]);
     }
 
     /**
@@ -112,5 +107,24 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/annuler_sortie.html.twig',['sortie' => $sortie,
             'form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/creerLieu", name="creer_lieu")
+     */
+    public function creerLieu(Request $request,EntityManagerInterface $entityManager){
+
+        $lieu = new Lieu();
+
+        $lieuForm = $this->createForm(LieuType::class,$lieu);
+        $lieuForm->handleRequest($request);
+
+        if ($lieuForm ->isSubmitted() && $lieuForm->isValid()){
+            $entityManager->persist($lieu);
+            $entityManager->flush();
+            return $this->redirectToRoute('sortie_créer');
+        }
+
+        return $this->render('sortie/creerlieu.html.twig',['lieuForm' => $lieuForm->createView()] );
     }
 }

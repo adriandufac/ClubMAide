@@ -1,0 +1,26 @@
+.container{
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.droite{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.gauche{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.center{
+    display: flex;
+    justify-content: space-around;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}

@@ -2,13 +2,45 @@
 
 {% block title %}Ajouter une sortie | {{ parent() }}{% endblock %}
 {% block stylesheets %}
-
+    <link rel="stylesheet" href="{{ asset('css/ajoutersortie.css') }}">
 {% endblock %}
 
 {% block body %}
     {{ form_start(sortieForm) }}
+    <div class="container">
+        <div class="gauche">
+            <div class="container">
+                <p>Nom de la sortie</p> <div>{{ form_widget(sortieForm.nom) }}</div>
+            </div >
+            <div class="container">
+                <p>Date de la sortie</p> <div>{{ form_widget(sortieForm.dateHeureDebut) }}</div>
+            </div>
+            <div class="container">
+                <p>Date Limite d'inscription</p><div>{{form_widget(sortieForm.dateLimiteInscription)  }}</div>
+            </div>
+            <div class="container">
+                <p>Nombre de place</p><div>{{ form_widget(sortieForm.nbInscriptionsMax) }} </div>
+            </div>
+            <div class="container">
+                <p>Durée</p><div>{{ form_widget(sortieForm.duree) }} </div>
+            </div>
+            <div class="container">
+                <p>Description et infos</p><div>{{ form_widget(sortieForm.infosSortie) }} </div>
+            </div>
+        </div>
+        <div class="droite">
+            <div class="container">
+                <p>Campus</p> <div>{{ form_widget(sortieForm.campus) }}</div>
+            </div >
+            <div class="container">
+                <p>Lieu</p> <div>{{ form_widget(sortieForm.lieu) }}</div> <button><a href="{{ path('creer_lieu') }}">Ajouter nouveau Lieu</a></button>
+            </div>
 
-    {{ form_widget(sortieForm) }}
-    <button type="submit"> Ajouter</button>
+        </div>
+    </div>
+    <div class="center">
+        <button type="submit"> Ajouter</button>
+    </div>
+
     {{ form_end(sortieForm) }}
 {% endblock %}
