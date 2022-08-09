@@ -26,6 +26,11 @@ class ProfilUpdateFormType extends AbstractType
         ->add('nom')
         ->add('telephone')
         ->add('email')
+        ->add('campus')
+        ->add('actif', CheckboxType::class,[
+        'label' => 'Actif : ',
+        'required' => false,
+        ])
         ->add('plainPassword', RepeatedType::class, [
             'type' => PasswordType::class,
             'invalid_message' => 'Les mots de passe doivent correspondre.',
@@ -37,11 +42,11 @@ class ProfilUpdateFormType extends AbstractType
             'attr' => ['autocomplete' => 'new-password'],
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Please enter a password',
+                    'message' => 'Veuillez rentrer un mot de passe',
                 ]),
                 new Length([
                     'min' => 6,
-                    'minMessage' => 'Your password should be at least {{ limit }} characters',
+                    'minMessage' => 'Votre mot de passe dois contenir au minimum 6 caractères',
                     'max' => 4096,
                 ]),
             ],

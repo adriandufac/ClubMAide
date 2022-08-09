@@ -58,7 +58,10 @@ class Campus
 
         return $this;
     }
-
+    public function __toString(): string
+    {
+        return $this->getNom(); 
+    }
 
 
     /**
@@ -120,4 +123,5 @@ class Campus
 
         return $this;
     }
+
 }

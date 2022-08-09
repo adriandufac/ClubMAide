@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/gestionUser.css') }}">
+{% endblock %}
+{% block body %}
+    <h2 style="text-align: center">Gérer les utilisateurs</h2>
+        <div>
+            <h3>Le nom contient :</h3>
+            {{ form_start(userForm.nom) }}
+            {{ form_widget(userForm.nom) }}
+            <button type="submit" name="submit">Rechercher</button>
+            {{ form_end(userForm.nom) }}
+        </div>
+
+    {{ form_start(userForm.nom) }}
+    <div class="container">
+        <div class="line">
+            {% for user in users %}
+            <div class="nom">
+                <h2>{{user.nom}}</h2>
+            </div>
+            <div class="prenom">
+                <h2>{{user.prenom}}</h2>
+            </div>
+            <div class="pseudo">
+                <h2>{{user.pseudo}}</h2>
+            </div>
+            <div class="action">
+                <a href="{{ path('update_user', {'id':user.id}) }}">Modifier</a>
+                <a href="{{ path('delete_user', {'id':user.id}) }}">Supprimer</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

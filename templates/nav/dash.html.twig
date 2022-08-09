@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dash.css') }}">
+{% endblock %}
+{% block title %} DashBoard | {{ parent() }}{% endblock %}
+    
+{% block body %}
+    
+    <div class="main">
+        <h1>Gestion Administrateur :</h1>
+        <br><br>
+        <ul>
+            <h2>
+                <li><a href="{{ path('gestion_ville') }}" title="villes" >Villes</a></li>
+                <li><a href="{{ path('campus_gestion') }}" title="campus" >Campus</a></li>
+                <li><a href="{{ path('new') }}" title="new_user" >Créer utilisateur</a></li> 
+                <li><a href="{{ path('gestion_user') }}" title="gestion_user" >Gérer les utilisateur </a></li> 
+
+            </h2>
+        </ul>
+    </div>
+{% endblock %}

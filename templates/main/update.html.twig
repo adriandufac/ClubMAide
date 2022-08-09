@@ -8,7 +8,7 @@
 
 {% block body %}
 
-{% if app.user.id == profil.id %}
+
     <div class="container">
         <div class="profil-info">
             <div class="labels">
@@ -21,6 +21,8 @@
                     <h3>{{ form_label(form.plainPassword.first,'Mot de passe : ') }}</h3>
                     <h3>{{ form_label(form.plainPassword.second,'Confirmez le mot de passe : ') }}</h3>
                     <h3>{{ form_label(form.campus,'Campus : ') }}</h3>
+                    <h3>{{ form_label(form.actif,'Actif : ') }}</h3>
+                    
             </div>
             <div class="values">
                 {{ form_widget(form.pseudo) }}
@@ -31,24 +33,13 @@
                 {{ form_widget(form.plainPassword.first) }}
                 {{ form_widget(form.plainPassword.second) }}
                 {{ form_widget(form.campus) }}
+                {{ form_widget(form.actif) }}
             </div>
             <button type="submit" class="modifier-profil">Modififer</button>
-            <a href="{{ path('main_page') }}" class="annuler-profil">Annuler</a>
+            <a href="{{ path('main_page') }}" class="annuler-profil">Annuler</a>    
             {{ form_end(form) }}
         </div>
     </div>
-
-    {% else %}
-    <div class="profil">
-        <div class="h2 option">
-            Prénom : {{profil.prenom}}
-            Nom : {{profil.prenom}}
-            Téléphone : {{profil.prenom}}
-            Email : {{profil.prenom}}
-            Campus : {{profil.prenom}} 
-        </div>
-    </div>
-{% endif %}
 
 
 

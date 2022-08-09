@@ -1,0 +1,52 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profil-info{
+    display: flex;
+    flex-direction: row;
+    margin-top: 5em;
+    padding: 2em;
+    gap: 3em;
+}
+
+.labels, .values{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    height: 50px;
+}
+
+
+.annuler-profil, .modifier-profil{
+    color: black;
+    display: inline-block;
+    text-decoration: none;
+    border: 2px solid black;
+    box-sizing: border-box;
+    padding: 5px;
+    background-color: white;
+    font-size: 1em;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.annuler-profil:hover, .annuler-profil:focus{
+    box-shadow: inset 30em 0 0 0 #b70202;
+    border-color: rgb(119, 0, 0);
+    color: white;
+}
+
+.modifier-profil:hover, .modifier-profil:focus{
+    box-shadow: inset 30em 0 0 0 #02b702;
+    border-color: rgb(5, 113, 14);
+    color: white;
+}
+
+.values{
+    gap: 21px;
+    margin-top: 23px;
+}

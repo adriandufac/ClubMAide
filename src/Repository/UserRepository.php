@@ -42,6 +42,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
+    public  function findUserSearchbar(string $search){
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            "SELECT u
+            FROM App\Entity\User u
+            WHERE u.nom LIKE :nom"
+        )->setParameter('nom', '%'.$search.'%');
+        $users=$query->getResult();
+        return($users);
+    }
+
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */

@@ -266,5 +266,14 @@ class MainController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('campus_gestion');
     }
+
+    /**
+     * @Route("/dash_board", name="dash_board")
+     */
+    public function dashBoard(): Response
+    {
+        return $this->render('nav/dash.html.twig', []);
+    }
+
 }
 
