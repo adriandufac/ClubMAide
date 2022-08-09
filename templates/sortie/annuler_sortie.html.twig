@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annuler une sortie | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>Annuler une sortie</h1>
+    <p>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Enregister" />
+        <input type="reset" value="Annuler" />
+        {{ form_end(form) }}
+    </p>
+{% endblock %}
+

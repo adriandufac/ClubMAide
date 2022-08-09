@@ -56,56 +56,58 @@ class MainController extends AbstractController
         $entityManager = $doctrine->getManager();
 
         foreach ($sorties as $sortie) {
-            $sortie->getDateHeureDebut()->modify('-2 hours')->setTimeZone($timeZone);
-            $sortie->getDateLimiteInscription()->modify('-2 hours')->setTimeZone($timeZone);
-            if ($sortie->getDateLimiteInscription() >= new DateTime() && count($sortie->getUsersInscrits()) < $sortie->getNbInscriptionsMax()) {
-                $sortie->setEtat($etatRepository->findOneBy(['libelle'=>'Ouverte']));
+            if($sortie->getEtat()->getId() != 6) {
+                $sortie->getDateHeureDebut()->modify('-2 hours')->setTimeZone($timeZone);
+                $sortie->getDateLimiteInscription()->modify('-2 hours')->setTimeZone($timeZone);
+                if ($sortie->getDateLimiteInscription() >= new DateTime() && count($sortie->getUsersInscrits()) < $sortie->getNbInscriptionsMax()) {
+                    $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Ouverte']));
 
-                $entityManager->persist($sortie);
-                $entityManager->flush();
-//                $sortieRepository->updateEtat($sortie->getId(), 2);
-                $dump2 = 'etat2';
-            }
-            if ($sortie->getDateLimiteInscription() < new DateTime() || $sortie->getNbInscriptionsMax() == count($sortie->getUsersInscrits())) {
-//                    $sortieRepository->updateEtat($sortie->getId(), 3);
-                $sortie->setEtat($etatRepository->findOneBy(['libelle'=>'Clôturée']));
-                $entityManager->persist($sortie);
-                $entityManager->flush();
-                $dump3 = 'etat3';
-            }
-            if (new DateTime() < $sortie->getDateHeureDebut()->modify('+' .$sortie->getDuree(). ' hours')) {
-                if(new DateTime() > $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree() . ' hours')){
-//                    $sortieRepository->updateEtat($sortie->getId(), 4);
-                    $sortie->setEtat($etatRepository->findOneBy(['libelle'=>'Activité en cours']));
                     $entityManager->persist($sortie);
                     $entityManager->flush();
-                    $dump4 = 'etat4';
+                    //                $sortieRepository->updateEtat($sortie->getId(), 2);
+                    $dump2 = 'etat2';
                 }
+                if ($sortie->getDateLimiteInscription() < new DateTime() || $sortie->getNbInscriptionsMax() == count($sortie->getUsersInscrits())) {
+                    //                    $sortieRepository->updateEtat($sortie->getId(), 3);
+                    $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Clôturée']));
+                    $entityManager->persist($sortie);
+                    $entityManager->flush();
+                    $dump3 = 'etat3';
+                }
+                if (new DateTime() < $sortie->getDateHeureDebut()->modify('+' . $sortie->getDuree() . ' hours')) {
+                    if (new DateTime() > $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree() . ' hours')) {
+                        //                    $sortieRepository->updateEtat($sortie->getId(), 4);
+                        $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Activité en cours']));
+                        $entityManager->persist($sortie);
+                        $entityManager->flush();
+                        $dump4 = 'etat4';
+                    }
                     // Modification de la date en enlevant sa durée car ajouter lors du traitement modify() dans les paramètres du if()
-            } else{
-                $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree() . ' hours');
+                } else {
+                    $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree() . ' hours');
+                }
+                if (new DateTime() > $sortie->getDateHeureDebut()->modify('+' . $sortie->getDuree() . ' hours')) {
+                    $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree() . ' hours');
+                    //                $sortieRepository->updateEtat($sortie->getId(), 5);
+                    $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Passée']));
+                    $entityManager->persist($sortie);
+                    $entityManager->flush();
+                    $dump5 = 'etat5';
+                } else {
+                    $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree() . ' hours');
+                }
+                if (new DateTime() > $sortie->getDateHeureDebut()->modify('+1 month')) {
+                    //                $sortieRepository->updateEtat($sortie->getId(), 7);
+                    $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Archivée']));
+                    $entityManager->persist($sortie);
+                    $entityManager->flush();
+                    $sortie->getDateHeureDebut()->modify('-1 month'); // par rapport au premier +1 mois L46
+                } else {
+                    $sortie->getDateHeureDebut()->modify('-1 month'); // par rapport au premier +1 mois L46
+                }
+                $sortie->getDateHeureDebut()->modify('+2 hours')->setTimeZone($timeZone);
+                $sortie->getDateLimiteInscription()->modify('+2 hours')->setTimeZone($timeZone);
             }
-            if (new DateTime() > $sortie->getDateHeureDebut()->modify('+' .$sortie->getDuree(). ' hours')) {
-                    $sortie->getDateHeureDebut()->modify('-' .$sortie->getDuree(). ' hours');
-//                $sortieRepository->updateEtat($sortie->getId(), 5);
-                $sortie->setEtat($etatRepository->findOneBy(['libelle'=>'Passée']));
-                $entityManager->persist($sortie);
-                $entityManager->flush();
-                $dump5 = 'etat5';
-            } else{
-                $sortie->getDateHeureDebut()->modify('-' . $sortie->getDuree(). ' hours');
-            }
-            if( new DateTime() > $sortie->getDateHeureDebut()->modify('+1 month')) {
-//                $sortieRepository->updateEtat($sortie->getId(), 7);
-                $sortie->setEtat($etatRepository->findOneBy(['libelle'=>'Archivée']));
-                $entityManager->persist($sortie);
-                $entityManager->flush();
-                $sortie->getDateHeureDebut()->modify('-1 month'); // par rapport au premier +1 mois L46
-            }else{
-                $sortie->getDateHeureDebut()->modify('-1 month'); // par rapport au premier +1 mois L46
-            }
-            $sortie->getDateHeureDebut()->modify('+2 hours')->setTimeZone($timeZone);
-            $sortie->getDateLimiteInscription()->modify('+2 hours')->setTimeZone($timeZone);
         }
 
         $filtreForm = $this->createForm(AccueilFiltrageFormType::class);

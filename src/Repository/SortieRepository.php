@@ -61,6 +61,10 @@ class SortieRepository extends ServiceEntityRepository
         $sorties=$query->getResult();
         return($sorties);
     }
+
+    public function addInscrit(int $id){
+
+    }
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */

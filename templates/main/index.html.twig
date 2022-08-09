@@ -134,7 +134,7 @@
                 <h2>Organisateur</h2>
                 {% for sortie in sorties %}
                         <div class="organisateur">
-                           <a href="{# {{ sortie.userOrganisateur.id}} #}" class="orga">{{ sortie.userOrganisateur.pseudo }}</a>
+                           <a href="{{ path('update_user',{'id': sortie.userOrganisateur.id}) }}" class="orga">{{ sortie.userOrganisateur.pseudo }}</a>
                         </div>
                 {% endfor %}
             </div>
@@ -153,27 +153,34 @@
                         {# Si l'utilisateur en cours est inscrit à la sortie présente #}
                         {% for user in sortie.usersInscrits %}
                             {% if user.id == app.user.id %}
-                               -<a href="#"> Me désinscrire</a>
+                               -<a href="{{ path('desinscription_sortie', {'id': sortie.id, 'id2': app.user.id}) }}"> Me désinscrire</a>
                             {% endif %}
                         {% endfor %}
                         {# Si l'utilisateur en cours est l'organisateur de la sortie #}
-                        {% if app.user.id == sortie.userOrganisateur.id %}
-                         -<a href="#"> Annuler</a>
-
+                        {% if app.user.id == sortie.userOrganisateur.id or is_granted('ROLE_ADMIN') %}
+                         -<a href="{{path('annuler_sortie', {'id': sortie.id}) }}"> Annuler</a>
                         {% endif %}
                         {# Si l'utilisateur en cours n'est pas inscrit à la sortie et n'est pas l'organisateur #}
-                        {% if app.user.id != sortie.userOrganisateur.id %}
-                            -<a href="#"> M'inscrire</a>
+                        {% set isParticipant = 'false' %}
+                        {% for user in sortie.usersInscrits %}
+                            {% if user.id == app.user.id %}
+                                {% set isParticipant = 'true' %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if app.user.id != sortie.userOrganisateur.id and isParticipant == 'false' %}
+                            -<a href="{{ path('inscription_sortie', {'id': sortie.id, 'id2': app.user.id}) }}"> M'inscrire</a>
                         {% endif %}
                     </div>
                     {# Si l'état de la sortie est "Clôturée"#}
                     {% elseif sortie.etat.libelle == 'Clôturée' %}
                         <div class="action">
                             <a href="{{path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
-
+                            {% if app.user.id == sortie.userOrganisateur.id or is_granted('ROLE_ADMIN') %}
+                                -<a href="{{path('annuler_sortie', {'id': sortie.id}) }}"> Annuler</a>
+                            {% endif %}
                         {% for user in sortie.usersInscrits %}
                             {% if user.id == app.user.id and "now"|date("d/m/Y H:i:s") < sortie.dateHeureDebut %}
-                                -<a href="#"> Me désinscrire</a>
+                                -<a href="{{ path('desinscription_sortie', {'id': sortie.id, 'id2': app.user.id}) }}"> Me désinscrire</a>
                             {% endif %}
                         {% endfor %}
                         </div>
@@ -181,6 +188,10 @@
                          <div class="action">
                              <a href="{{path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
                          </div>
+                    {% elseif sortie.etat.libelle == 'Annulée'%}
+                        <div class="action">
+                            <a href="{{path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
+                        </div>
                     {% endif %}
                     {# Si l'utilisateur est organisateur mais qu'il n'a pas publié la sortie #}
                 {% endfor %}
