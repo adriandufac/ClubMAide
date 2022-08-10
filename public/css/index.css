@@ -10,14 +10,17 @@
 
 .tab-section{
     width: 100%;
+    height: 300px;
+    overflow: auto;
 }
 
 .tab{
+
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    overflow: auto;
+
 }
 
 .tab h2{
@@ -60,7 +63,7 @@
 }
 
 .tab{
-    border: 2px solid black;
+   /* border: 2px solid black;*/
 }
 
 .action{
