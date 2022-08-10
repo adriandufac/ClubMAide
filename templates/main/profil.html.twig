@@ -41,11 +41,26 @@
     {% else %}
     <div class="profil">
         <div class="h2 option">
-            Prénom : {{profil.prenom}}
-            Nom : {{profil.prenom}}
-            Téléphone : {{profil.prenom}}
-            Email : {{profil.prenom}}
-            Campus : {{profil.prenom}} 
+            <div class="prenom">
+                <h2>Prénom :</h2>
+                <p>{{profil.prenom}}</p>
+            </div>
+            <div class="nom">
+                <h2>Nom :</h2>
+                <p>{{profil.prenom}}</p>
+            </div>
+           <div class="telephone">
+               <h2>Téléphone :</h2>
+               <p>{{profil.prenom}}</p>
+           </div>
+            <div class="mail">
+                <h2>Email :</h2>
+                <p>{{profil.prenom}}</p>
+            </div>
+            <div class="campus">
+                <h2>Campus :</h2>
+                <p>{{profil.prenom}}</p>
+            </div>
         </div>
     </div>
 {% endif %}

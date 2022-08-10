@@ -55,7 +55,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px
+    gap: 20px;
+    padding-bottom: 15px;
+}
+
+.tab{
+    border: 2px solid black;
 }
 
 .action{
@@ -124,4 +129,21 @@
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
+}
+
+.utilisateur, .dateDuJour{
+    font-weight: 700;
+}
+
+.tab a{
+    background-color: white;
+    font-size: 1em;
+    transition: all 0.3s ease-in-out;
+}
+/* SLIDE EFFECT */
+.tab a:hover,
+.tab a:focus{
+    text-decoration: none;
+    color: #ff0000;
+
 }
