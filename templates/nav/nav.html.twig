@@ -3,7 +3,7 @@
 {% endblock %}
     
     <header>
-        <img src="{{ asset('img/logo') }}" alt="Logo">
+        <a class="logo"href="{{ path('main_page') }}"> <img src="{{ asset('img/logo') }}" alt="Logo"> </a>
         <ul>
             {% if app.user %}
                 <li><a href="{{ path('main_page') }}" title="accueil">Accueil</a></li>
