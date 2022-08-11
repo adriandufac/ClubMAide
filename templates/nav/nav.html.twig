@@ -1,17 +1,31 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/navbar-mobile.js') }}"></script>
 {% endblock %}
     
     <header>
-        <a class="logo"href="{{ path('main_page') }}"> <img src="{{ asset('img/logo') }}" alt="Logo"> </a>
-        <ul>
-            {% if app.user %}
-                <li><a href="{{ path('main_page') }}" title="accueil">Accueil</a></li>
-            {% if is_granted('ROLE_ADMIN') %}
-                <li><a href="{{ path('dash_board') }}" title="dashboard" >Admin </a></li> 
-            {% endif %}
-                <li><a href="{{ path('update_user',{'id':app.user.id}) }}" title="profil" >Profil</a></li> 
-                <li><a href="{{ path('app_logout') }}" title="logout" >Déconnexion</a></li> 
-            {% endif %}
-        </ul>
+        <div class="nav" id="navbar">
+                <div class="left-responsive">
+                <a class="logo" href="{{ path('main_page') }}"> <img src="{{ asset('img/logo') }}" alt="Logo"> </a>
+                <a href="javascript:void(0);" class="icon" id="icon" onclick="switchMenu()">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <ul id="links">
+                {% if app.user %}
+                    <li><a href="{{ path('main_page') }}" title="accueil">Accueil</a></li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('dash_board') }}" title="dashboard" >Admin </a></li>
+                    {% endif %}
+                    <li><a href="{{ path('update_user',{'id':app.user.id}) }}" title="profil" >Profil</a></li>
+                    <li><a href="{{ path('app_logout') }}" title="logout" >Déconnexion</a></li>
+                {% endif %}
+            </ul>
+            <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
+
+        </div>
     </header>
