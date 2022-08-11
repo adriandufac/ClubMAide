@@ -64,6 +64,8 @@
                     <h3>{{ form_label(form.telephone,'Téléphone : ') }}</h3>
                     <h3>{{ form_label(form.email,'Email : ') }}</h3>
                     <h3>{{ form_label(form.campus,'Campus : ') }}</h3>
+                    <h3>{{ form_label(form.actif,'Actif : ') }}</h3>
+                    <h3>{{ form_label(form.profilphoto,'Photo de profil : ') }}</h3>
 
             </div>
             <div class="values">
@@ -73,6 +75,8 @@
                 {{ form_widget(form.telephone) }}
                 {{ form_widget(form.email) }}
                 {{ form_widget(form.campus) }}
+                {{ form_widget(form.actif) }}
+                {{ form_widget(form.profilphoto) }}
             </div>
             <button type="submit" class="modifier-profil">Modififer</button>
             <a href="{{ path('main_page') }}" class="annuler-profil">Annuler</a>

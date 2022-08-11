@@ -7,6 +7,11 @@
 
 form{
     width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+
 }
 
 main{
@@ -27,4 +32,28 @@ main{
 }
 #registration_form div label{
     font-weight: bold;
+}
+
+button{
+    color: black;
+    display: inline-block;
+    text-align: center;
+
+    text-decoration: none;
+    border: 2px solid black;
+    box-sizing: border-box;
+    padding: 5px;
+    background-color: white;
+    font-size: 1em;
+    transition: all 0.4s ease-in-out;
+    cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+button:hover, button:focus{
+    box-shadow: inset 40em 0 0 0 #02b702;
+    border-color: rgb(5, 113, 14);
+    color: white;
 }

@@ -28,20 +28,22 @@ class RegistrationFormType extends AbstractType
         ->add('nom')
         ->add('telephone')
         ->add('email')
-        ->add('plainPassword', PasswordType::class, [
-            // instead of being set onto the object directly,
-            // this is read and encoded in the controller
-            "label" => "mot de passe",
+        ->add('plainPassword', RepeatedType::class, [
+            'type' => PasswordType::class,
+            'invalid_message' => 'Les mots de passe doivent correspondre.',
+            'options' => ['attr' => ['class' => 'password-field']],
+            'required' => true,
+            'first_options'  => ['label' => 'Mot de passe'],
+            'second_options' => ['label' => 'Répétez le mot de passe'],
             'mapped' => false,
             'attr' => ['autocomplete' => 'new-password'],
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Please enter a password',
+                    'message' => 'Veuillez rentrer un mot de passe',
                 ]),
                 new Length([
                     'min' => 6,
-                    'minMessage' => 'Your password should be at least {{ limit }} characters',
-                    // max length allowed by Symfony for security reasons
+                    'minMessage' => 'Votre mot de passe dois contenir au minimum 6 caractères',
                     'max' => 4096,
                 ]),
             ],
@@ -56,7 +58,7 @@ class RegistrationFormType extends AbstractType
         ->add('profilphoto', FileType::class,
             [   'required'=>false,
                 'mapped' => false, // désactive le mappage avec le champ dans l'entité (qui attend une chaîne de caractère)
-                'label' => 'upload ta photo de profil ici',
+                'label' => 'Photo de profil',
                 'constraints' => [ new Image( ['mimeTypesMessage' => 'Image format not allowed !'])],
             ]);
     }
