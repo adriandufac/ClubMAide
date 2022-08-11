@@ -52,3 +52,20 @@
     border: 2px solid red;
     padding: 3px;
 }
+
+/* RESPONSIVE */
+@media (max-width: 768px){
+    .tab{
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    .rightside, .leftside{
+        width: 100%;
+    }
+    .line{
+        width: 100%;
+    }
+    h2{
+        font-size: 1.4em;
+    }
+}

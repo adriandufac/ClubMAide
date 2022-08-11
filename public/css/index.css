@@ -148,5 +148,29 @@
 .tab a:focus{
     text-decoration: none;
     color: #ff0000;
+}
 
+
+/* RESPONSIVE */
+.lieus{
+    display: none;
+}
+.nom-responsive{
+    display: none;
+}
+@media (max-width: 768px){
+    .lieus, .nom-responsive{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        padding-bottom: 15px;
+    }
+    .nom, .clotures, .places, .etats, .inscrits, .organisateurs, .actions{
+        display: none;
+    }
+    .research{
+        flex-wrap: wrap;
+    }
 }

@@ -70,6 +70,14 @@
 
     <section class="tab-section">
         <div class="tab">
+            <div class="nom-responsive">
+                <h2>Nom de la sortie</h2>
+                {% for sortie in sorties %}
+                    <div class="name" campus="{{ sortie.getCampus.getId }}">
+                        <a href="{{path('sortie_show', {'id': sortie.id}) }}">{{ sortie.nom }}</a>
+                    </div>
+                {% endfor %}
+            </div>
             <div class="nom">
                 <h2>Nom de la sortie</h2>
                 {% for sortie in sorties %}
@@ -82,6 +90,12 @@
                 <h2>Date de la sortie</h2>
                 {% for sortie in sorties %}
                     <div class="date_debut">{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</div>
+                {% endfor %}
+            </div>
+            <div class="lieus">
+                <h2>Lieu de la sortie</h2>
+                {% for sortie in sorties %}
+                    <div class="lieu">{{ sortie.lieu.nom}}</div>
                 {% endfor %}
             </div>
             <div class="clotures">

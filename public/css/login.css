@@ -1,0 +1,38 @@
+@media (max-width: 768px) {
+    form{
+        height: 100%;
+    }
+    html{
+        min-height: 100vh;
+    }
+    body{
+        height: 100%;
+    }
+}
+
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    gap: 1em;
+}
+.mail, .password, .buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap : 1em;
+    width: 100%;
+}
+

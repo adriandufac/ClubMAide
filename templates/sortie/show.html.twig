@@ -83,6 +83,9 @@
         {% if sortie.etat.libelle != 'Annulée' %}
         <div class="list-users">
             <h2>Liste des participants inscrits :</h2>
+            {% if sortie.usersInscrits.count < 1  %}
+                <h2>Aucun participant inscrit</h2>
+            {% else %}
             <div class="line">
                 <h2>Pseudo</h2>
                 <h2>Nom</h2>
@@ -97,6 +100,7 @@
                     </div>
                 </div>
             {% endfor %}
+            {% endif %}
         </div>
         {% endif %}
     </div>
