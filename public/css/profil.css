@@ -79,3 +79,8 @@
     font-size: 1.2em;
     font-weight: 300;
 }
+
+.img img{
+    width: 200px;
+    height: 200px;
+}

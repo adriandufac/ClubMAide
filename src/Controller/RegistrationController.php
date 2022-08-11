@@ -24,7 +24,6 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
-
 class RegistrationController extends AbstractController
 {
     /**
@@ -39,7 +38,16 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('profilphoto')->getData();
+            if ($file)
+            {
+                // On renomme le fichier, selon une convention propre au projet
+                // Par exemple nom de l'entité + son id + extension soit 'entite-1.jpg'
 
+                $newFilename = strtolower($user->getPseudo()).".".$file->guessExtension();
+                $file->move($this->getParameter('upload_profilphoto_user_dir'), $newFilename);
+                $user->setImage($newFilename);
+            }
             if($form->get('administrateur')->getData() == true){
                 $user->setRoles(["ROLE_ADMIN"]);
             }else{
