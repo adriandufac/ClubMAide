@@ -78,6 +78,10 @@
                     <h2>Longitude :</h2>
                     {{ sortie.lieu.longitude }}
                 </div>
+                <div class="cloture">
+                    <h2>Clôture :</h2>
+                    {{ sortie.dateLimiteInscription | date('d/m/Y H:i') }}
+                </div>
             </div>
         </div>
         {% if sortie.etat.libelle != 'Annulée' %}
