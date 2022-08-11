@@ -44,6 +44,7 @@ class RegistrationController extends AbstractController
             }else{
                 $user->setRoles(["ROLE_USER"]);
             }
+
             $user->setPassword(
             $userPasswordHasher->hashPassword(
                 $user,
@@ -53,13 +54,13 @@ class RegistrationController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+            // return $userAuthenticator->authenticateUser(
+            //     $user,
+            //     $authenticator,
+            //     $request
+            // );
 
-            return $this->redirectToRoute('main_page');
+            return $this->redirectToRoute('gestion_user');
         }
 
                 return $this->render('registration/register.html.twig', [

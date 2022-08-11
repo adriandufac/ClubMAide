@@ -8,7 +8,7 @@
 
 {% block body %}
 
-{% if app.user.id == profil.id %}
+{% if app.user.id == profil.id  %}
     <div class="container">
         <div class="profil-info">
             <div class="labels">
@@ -21,6 +21,7 @@
                     <h3>{{ form_label(form.plainPassword.first,'Mot de passe : ') }}</h3>
                     <h3>{{ form_label(form.plainPassword.second,'Confirmez le mot de passe : ') }}</h3>
                     <h3>{{ form_label(form.campus,'Campus : ') }}</h3>
+
             </div>
             <div class="values">
                 {{ form_widget(form.pseudo) }}
@@ -30,6 +31,33 @@
                 {{ form_widget(form.email) }}
                 {{ form_widget(form.plainPassword.first) }}
                 {{ form_widget(form.plainPassword.second) }}
+                {{ form_widget(form.campus) }}
+            </div>
+            <button type="submit" class="modifier-profil">Modififer</button>
+            <a href="{{ path('main_page') }}" class="annuler-profil">Annuler</a>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    {% elseif is_granted('ROLE_ADMIN') %}
+    <p>test</p>
+    <div class="container">
+        <div class="profil-info">
+            <div class="labels">
+                {{ form_start(form) }}
+                    <h3>{{ form_label(form.pseudo,'Pseudo : ') }}</h3>
+                    <h3>{{ form_label(form.prenom,'Prénom : ') }}</h3>
+                    <h3>{{ form_label(form.nom,'Nom : ') }}</h3>
+                    <h3>{{ form_label(form.telephone,'Téléphone : ') }}</h3>
+                    <h3>{{ form_label(form.email,'Email : ') }}</h3>
+                    <h3>{{ form_label(form.campus,'Campus : ') }}</h3>
+
+            </div>
+            <div class="values">
+                {{ form_widget(form.pseudo) }}
+                {{ form_widget(form.prenom) }}
+                {{ form_widget(form.nom) }}
+                {{ form_widget(form.telephone) }}
+                {{ form_widget(form.email) }}
                 {{ form_widget(form.campus) }}
             </div>
             <button type="submit" class="modifier-profil">Modififer</button>
