@@ -20,6 +20,12 @@ class ProfilUpdateFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options ): void
     {
+        // $roles = $this->token->getToken()->getUser()->getRoles();
+
+        
+
+
+
         $builder
         ->add('pseudo')
         ->add('prenom')
@@ -31,7 +37,8 @@ class ProfilUpdateFormType extends AbstractType
         'label' => 'Actif : ',
         'required' => false,
         ])
-        ->add('plainPassword', RepeatedType::class, [
+        // if (in_array('ROLE_USER', $roles, true)){
+            ->add('plainPassword', RepeatedType::class, [
             'type' => PasswordType::class,
             'invalid_message' => 'Les mots de passe doivent correspondre.',
             'options' => ['attr' => ['class' => 'password-field']],
@@ -51,6 +58,8 @@ class ProfilUpdateFormType extends AbstractType
                 ]),
             ],
             ])
+
+        // }
         ;
     }
 
