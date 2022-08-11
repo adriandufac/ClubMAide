@@ -5,6 +5,7 @@ use App\Form\VilleAddType;
 use App\Form\VilleSearchType;
 use App\Repository\VilleRepository;
 
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,10 @@ class VilleController extends AbstractController
     */
     public function gestionville(VilleRepository  $villeRepository, Request $request,EntityManagerInterface $entityManager): Response
     {
+        $exception =false;
+        if ($request->query->get('exception') == true){
+            $exception =true;
+        }
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $ville = new Ville();
         $ville2 = new Ville();
@@ -46,7 +51,8 @@ class VilleController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('gestion_ville');
         }
-        return $this->render('main/gestionville.html.twig',["villes" => $villes,'villeForm' =>$searchForm->createView(),'villeForm2'=>$addForm->createView()]);
+        return $this->render('main/gestionville.html.twig',["villes" => $villes,'villeForm' =>$searchForm->createView(),
+                                                                    'villeForm2'=>$addForm->createView(),'exception' =>$exception]);
     }
 
     /**
@@ -55,6 +61,7 @@ class VilleController extends AbstractController
 
     public function edit(Request $request,int $id,VilleRepository  $villeRepository,EntityManagerInterface $entityManager): Response
     {
+
         $ville =($villeRepository->find($id));
 
         $villeForm = $this->createForm(VilleSearchType::class,$ville);
@@ -82,8 +89,13 @@ class VilleController extends AbstractController
 
     public function delete(int $id,VilleRepository $villeRepository,EntityManagerInterface $entityManager): Response
     {
-        $entityManager->remove($villeRepository->find($id));
-        $entityManager->flush();
-        return $this->redirectToRoute('gestion_ville');
+        try{
+            $entityManager->remove($villeRepository->find($id));
+            $entityManager->flush();
+        }
+        catch (ForeignKeyConstraintViolationException $e){
+            return $this->redirectToRoute('gestion_ville',['exception'=>true]);
+        }
+        return $this->redirectToRoute('gestion_ville',['exception'=>false]);
     }
 }

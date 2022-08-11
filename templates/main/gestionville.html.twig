@@ -8,6 +8,9 @@
 
 {% block body %}
     <h2 style="text-align: center">Gérer les villes</h2>
+    {%if exception == true %}
+        <p style ="color: red">Impossible de supprimer la ville car une sortie y est organisée.</p>
+    {% endif %}
         <div>
             <h3>Le nom contient :</h3>
             {{ form_start(villeForm.nom) }}
