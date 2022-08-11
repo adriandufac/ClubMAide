@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {% if not is_granted('ROLE_ADMIN') %}
+        <META HTTP-EQUIV="Refresh" CONTENT="3;URL={{ path('main_page') }}">
+    {% endif %}
+    <link rel="stylesheet" href="{{ asset('css/register.css') }}">
+{% endblock %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+
+    {% if is_granted('ROLE_ADMIN') and app.user %}
+        <h1> Ajouter des utilisateurs depuis un fichier .csv : </h1>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn">Ajouter</button>
+        {{ form_end(form) }}
+    {% else %}
+
+        <div class="error">
+            <h1>Accès Refusé</h1>
+            <h3>Seul un Administrateur peux accéder à cette page</h3>
+            <h3>Vous allez être redirigé vers la page d'accueil</h3>
+        </div>
+    {% endif %}
+    {% if warning is defined %}
+        {{ warning }}
+    {% endif %}
+
+
+{% endblock %}

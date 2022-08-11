@@ -3,11 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\CSVType;
 use App\Form\UserSearchType;
 use App\Form\ProfilUpdateFormType;
 use App\Form\RegistrationFormType;
+use App\Repository\CampusRepository;
 use App\Repository\UserRepository;
 use App\Security\AppAuthenticator;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -121,7 +125,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/gestion_user", name="gestion_user")
      */
-    public function formGestionUser(Request $request, EntityManagerInterface $em,UserRepository $userRepository): Response
+    public function formGestionUser(Request $request,UserRepository $userRepository): Response
     {
 
 
@@ -146,6 +150,57 @@ class RegistrationController extends AbstractController
             'userForm' => $userForm->createView(),
             'users' => $user
         ]);
+    }
+
+    /**
+     * @Route("/add-users", name="add_users")
+     */
+    function addUsersByCSV(Request $request, EntityManagerInterface $em,UserPasswordHasherInterface $userPasswordHasher,CampusRepository $campusRepo)
+    {
+
+        // Form creation ommited
+        $form = $this->createForm(CSVType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form->get('submitedFile')->getData();
+
+            // Open the file
+            if (($handle = fopen($file->getPathname(), "r")) !== false) {
+                // Read and process the lines.
+                // Skip the first line if the file includes a header
+                while (($data = fgetcsv($handle)) !== false) {
+                    // Do the processing: Map line to entity, validate if needed
+
+                    // Assign fields
+                        $user = new User();
+                        $user->setPseudo($data[0]);
+                        $user->setNom($data[1]);
+                        $user->setPrenom($data[2]);
+                        $user->setTelephone((int)$data[3]);
+                        $user->setEmail($data[4]);
+                        $user->setPassword($userPasswordHasher->hashPassword($user,$data[5]));
+                        $user->setCampus($campusRepo->findOneBy(['nom'=>$data[6]]));
+                        $user->setAdministrateur(false);
+                        $user->setActif(true);
+                        //return $this->render('registration/addUserFromCSV.html.twig',['form' => $form->createView(),'data'=>$data[0]]);
+                        try{$em->persist($user);
+                        $em->flush();}
+                        catch (UniqueConstraintViolationException $e){
+                            return $this->render('registration/addUserFromCSV.html.twig',['form' => $form->createView(),'warning'=>'Attention probleme de key unique a l\'ajout en base']);
+                        }
+                    }
+
+                    //
+
+                fclose($handle);
+
+               return $this->redirectToRoute('gestion_user');
+
+            }
+        }
+        return $this->render('registration/addUserFromCSV.html.twig',['form' => $form->createView()]);
     }
 
 }
