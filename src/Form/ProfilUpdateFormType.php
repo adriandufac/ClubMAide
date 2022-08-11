@@ -83,7 +83,7 @@ class ProfilUpdateFormType extends AbstractType
                 [ 'mapped' => false, // désactive le mappage avec le champ dans l'entité (qui attend une chaîne de caractère)
                     'label' => 'upload ta photo de profil ici',
                         'constraints' => [ new Image( ['mimeTypesMessage' => 'Image format not allowed !'])
-                    ]
+                    ],'required' =>false
                 ]
             )
 

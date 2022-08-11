@@ -87,6 +87,17 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('profilphoto')->getData();
+            if ($file)
+            {
+                // On renomme le fichier, selon une convention propre au projet
+                // Par exemple nom de l'entité + son id + extension soit 'entite-1.jpg'
+
+                $newFilename = strtolower($userProfil->getPseudo()).".".$file->guessExtension();
+                $file->move($this->getParameter('upload_profilphoto_user_dir'), $newFilename);
+                $userProfil->setImage($newFilename);
+            }
+            
             $userProfil -> setPassword(
             $userPasswordHasher->hashPassword(
                 $userProfil,

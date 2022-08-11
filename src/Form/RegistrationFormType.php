@@ -54,14 +54,11 @@ class RegistrationFormType extends AbstractType
     
         ->add('campus', EntityType::class,['label'=>'Campus','class'=>Campus::class,'choice_label'=>'nom'])
         ->add('profilphoto', FileType::class,
-            [ 'mapped' => false, // désactive le mappage avec le champ dans l'entité (qui attend une chaîne de caractère)
+            [   'required'=>false,
+                'mapped' => false, // désactive le mappage avec le champ dans l'entité (qui attend une chaîne de caractère)
                 'label' => 'upload ta photo de profil ici',
-                    'constraints' => [ new Image( ['mimeTypesMessage' => 'Image format not allowed !'])
-                ]
-            ]
-        )
-        ;
-        
+                'constraints' => [ new Image( ['mimeTypesMessage' => 'Image format not allowed !'])],
+            ]);
     }
 
     

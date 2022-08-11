@@ -3,6 +3,10 @@
 
 }
 
+.logo{
+    cursor: default;
+}
+
 header ul>li:after{
     content: "";
     display: block;
