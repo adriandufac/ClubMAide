@@ -4,3 +4,27 @@
     align-items: center;
     color: red;
 }
+
+form{
+    width: 30%;
+}
+
+main{
+    justify-content: center;
+    align-items: center;
+}
+
+#registration_form div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+#registration_form{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+#registration_form div label{
+    font-weight: bold;
+}

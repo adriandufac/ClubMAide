@@ -14,8 +14,9 @@
 
     {{ form_start(userForm.nom) }}
     <div class="container">
+        {% for user in users %}
         <div class="line">
-            {% for user in users %}
+
             <div class="nom">
                 <h2>{{user.nom}}</h2>
             </div>
@@ -30,7 +31,8 @@
                 <a href="{{ path('delete_user', {'id':user.id}) }}">Supprimer</a>
             </div>
                 <br>
-            {% endfor %}
+
         </div>
+        {% endfor %}
     </div>
 {% endblock %}

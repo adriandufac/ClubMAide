@@ -11,6 +11,19 @@
     margin-top: 5em;
     padding: 2em;
     gap: 3em;
+    height: 400px
+}
+.profil-col{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+.profil-col div:nth-child(5){
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .labels, .values{
