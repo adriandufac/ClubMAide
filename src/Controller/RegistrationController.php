@@ -97,7 +97,7 @@ class RegistrationController extends AbstractController
                 $file->move($this->getParameter('upload_profilphoto_user_dir'), $newFilename);
                 $userProfil->setImage($newFilename);
             }
-            
+
             $userProfil -> setPassword(
             $userPasswordHasher->hashPassword(
                 $userProfil,
@@ -228,6 +228,7 @@ class RegistrationController extends AbstractController
                         $user->setCampus($campusRepo->findOneBy(['nom'=>$data[6]]));
                         $user->setAdministrateur(false);
                         $user->setActif(true);
+                        $user->setRoles(["ROLE_USER"]);
                         //return $this->render('registration/addUserFromCSV.html.twig',['form' => $form->createView(),'data'=>$data[0]]);
                         try{$em->persist($user);
                         $em->flush();}
