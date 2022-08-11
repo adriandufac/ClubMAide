@@ -10,10 +10,12 @@ use App\Form\RegistrationFormType;
 use App\Repository\CampusRepository;
 use App\Repository\UserRepository;
 use App\Security\AppAuthenticator;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use App\Form\ProfilUpdateAdminType;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -158,8 +160,14 @@ class RegistrationController extends AbstractController
     public function deleteUser(int $id,UserRepository $userRepository,EntityManagerInterface $entityManager): Response
     {
         {
-            $entityManager->remove($userRepository->find($id));
-            $entityManager->flush();
+            try {
+                $entityManager->remove($userRepository->find($id));
+                $entityManager->flush();
+            }
+            catch(ForeignKeyConstraintViolationException $e){
+
+                return $this->redirectToRoute('gestion_user',['test'=>true]);
+            }
             return $this->redirectToRoute('gestion_user');
         }
 
@@ -169,11 +177,14 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/gestion_user", name="gestion_user")
      */
-    public function formGestionUser(Request $request,UserRepository $userRepository): Response
+    public function formGestionUser(Request $request,UserRepository $userRepository, string $warning ='false'): Response
     {
-
+        if ($request->query->get('test') == true){
+            $warning ='true';
+        }
 
         $user = new User();
+
 
         $userForm = $this->createForm(UserSearchType::class,$user);
         $userForm->handleRequest($request);
@@ -192,7 +203,8 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/user.html.twig',[
             'userForm' => $userForm->createView(),
-            'users' => $user
+            'users' => $user,
+            'warning'=>$warning
         ]);
     }
 

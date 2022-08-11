@@ -3,6 +3,9 @@
     <link rel="stylesheet" href="{{ asset('css/gestionUser.css') }}">
 {% endblock %}
 {% block body %}
+    {% if warning=='true' %}
+        <p style="color: red">Impossible de supprimer cet utilisateur car il organise une sortie. (Supprimer la sortie pour pouvoir supprimer l'utilisateur)</p>
+    {% endif %}
     <h2 style="text-align: center">Gérer les utilisateurs</h2>
         <div>
             <h3>Le nom contient :</h3>
