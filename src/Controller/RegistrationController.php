@@ -12,6 +12,7 @@ use App\Repository\UserRepository;
 use App\Security\AppAuthenticator;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
+use App\Form\ProfilUpdateAdminType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,11 +55,6 @@ class RegistrationController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            // return $userAuthenticator->authenticateUser(
-            //     $user,
-            //     $authenticator,
-            //     $request
-            // );
 
             return $this->redirectToRoute('gestion_user');
         }
@@ -107,6 +103,34 @@ class RegistrationController extends AbstractController
             'profil' => $userProfil,
         ]);
         
+    }
+
+    /**
+     * @Route("/profil/admin/{id}", name="admin_update_user")
+     */
+    public function FormAdminUser(Request $request,EntityManagerInterface $em,UserRepository $userRepository, int $id): Response
+    {
+        $userProfil = $userRepository->find($id);
+
+
+        $form = $this->createForm(ProfilUpdateAdminType::class, $userProfil);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $em->persist($userProfil);
+            $em->flush();
+            
+            return $this->redirectToRoute('gestion_user');
+        }
+        
+        return $this->render('main/profil-admin.html.twig', [
+            'form' => $form->createView(),
+            'profil' => $userProfil,
+        ]);
+        
+    
     }
 
     /**

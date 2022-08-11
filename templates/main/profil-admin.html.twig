@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil | {{ parent() }}{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/profil.css') }}">
+
+{% endblock %}
+
+{% block body %}
+
+{% if is_granted('ROLE_ADMIN') %}
+    <div class="container">
+        <div class="profil-info">
+            <div class="labels">
+                {{ form_start(form) }}
+                    <h3>{{ form_label(form.pseudo,'Pseudo : ') }}</h3>
+                    <h3>{{ form_label(form.prenom,'Prénom : ') }}</h3>
+                    <h3>{{ form_label(form.nom,'Nom : ') }}</h3>
+                    <h3>{{ form_label(form.telephone,'Téléphone : ') }}</h3>
+                    <h3>{{ form_label(form.email,'Email : ') }}</h3>
+                    <h3>{{ form_label(form.campus,'Campus : ') }}</h3>
+
+            </div>
+            <div class="values">
+                {{ form_widget(form.pseudo) }}
+                {{ form_widget(form.prenom) }}
+                {{ form_widget(form.nom) }}
+                {{ form_widget(form.telephone) }}
+                {{ form_widget(form.email) }}
+                {{ form_widget(form.campus) }}
+            </div>
+            <button type="submit" class="modifier-profil">Modififer</button>
+            <a href="{{ path('main_page') }}" class="annuler-profil">Annuler</a>
+            {{ form_end(form) }}
+        </div>
+    </div>
+        {% else %}
+    <div class="profil">
+        <div class="h2 option">
+            <div class="pseudo">
+                <h2>Pseudo :</h2>
+                <p>{{profil.pseudo}}</p>
+            </div>
+            <div class="prenom">
+                <h2>Prénom :</h2>
+                <p>{{profil.prenom}}</p>
+            </div>
+            <div class="nom">
+                <h2>Nom :</h2>
+                <p>{{profil.prenom}}</p>
+            </div>
+           <div class="telephone">
+               <h2>Téléphone :</h2>
+               <p>{{profil.prenom}}</p>
+           </div>
+            <div class="mail">
+                <h2>Email :</h2>
+                <p>{{profil.prenom}}</p>
+            </div>
+            <div class="campus">
+                <h2>Campus :</h2>
+                <p>{{profil.prenom}}</p>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+
+
+{% endblock %}

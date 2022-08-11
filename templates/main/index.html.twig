@@ -134,7 +134,7 @@
                 <h2>Organisateur</h2>
                 {% for sortie in sorties %}
                         <div class="organisateur">
-                           <a href="{{ path('update_user',{'id': sortie.userOrganisateur.id}) }}" class="orga">{{ sortie.userOrganisateur.pseudo }}</a>
+                           <a href="{{ path('admin_update_user',{'id': sortie.userOrganisateur.id}) }}" class="orga">{{ sortie.userOrganisateur.pseudo }}</a>
                         </div>
                 {% endfor %}
             </div>
