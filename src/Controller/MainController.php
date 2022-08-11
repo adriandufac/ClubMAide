@@ -120,80 +120,9 @@ class MainController extends AbstractController
                 'dump3' => $dump3,
                 'dump4' => $dump4,
                 'dump5' => $dump5]);
-            }
-
-    /**
-     * @Route("/gestion_ville", name="gestion_ville")
-     */
-    public function gestionville(VilleRepository  $villeRepository, Request $request,EntityManagerInterface $entityManager): Response
-    {
-        $ville = new Ville();
-        $ville2 = new Ville();
-        //$this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        $villeForm = $this->createForm(VilleSearchType::class,$ville);
-        $villeForm->handleRequest($request);
-
-        $villeForm2 = $this->createForm(VilleAddType::class,$ville2);
-        $villeForm2->handleRequest($request);
-
-        if($villeForm->isSubmitted()){
-            if ($ville->getNom() != ""){
-                $villes = $villeRepository->findVilleSearchbar($ville->getNom());
-            }
-            else{
-                $villes = $villeRepository-> findAll();
-            }
-        }
-        else {
-            $villes = $villeRepository-> findAll();
-        }
-
-        if ($villeForm2->isSubmitted()){
-            $entityManager->persist($ville2);
-            $entityManager->flush();
-            return $this->redirectToRoute('gestion_ville');
-        }
-        return $this->render('main/gestionville.html.twig',["villes" => $villes,'villeForm' =>$villeForm->createView(),'villeForm2'=>$villeForm2->createView()]);
     }
 
-    /**
-     * @Route("/ville_edit/{id}", name="ville_edit")
-     */
 
-    public function edit(Request $request,int $id,VilleRepository  $villeRepository,EntityManagerInterface $entityManager): Response
-    {
-        $ville =($villeRepository->find($id));
-
-        $villeForm = $this->createForm(VilleSearchType::class,$ville);
-
-        $villeForm->handleRequest($request);
-        //si on submit le formulaire
-        if($villeForm->isSubmitted()){
-            //ajout de la produit en base
-
-            $entityManager->persist($ville);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'ville modifié!');
-            //on affiche la liste des produits
-            return $this->redirectToRoute('gestion_ville');
-        }
-
-        //on envoit le formulaire a la page d'ajout de category
-        return $this->render('main/ville_edit.html.twig',['villeForm' =>$villeForm->createView()]);
-    }
-
-    /**
-     * @Route("/ville_delete/{id}", name="ville_delete")
-     */
-
-    public function delete(int $id,VilleRepository $villeRepository,EntityManagerInterface $entityManager): Response
-    {
-        $entityManager->remove($villeRepository->find($id));
-        $entityManager->flush();
-        return $this->redirectToRoute('gestion_ville');
-    }
 
     /**
      * @Route("/campus_gestion", name="campus_gestion")
