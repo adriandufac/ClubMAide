@@ -6,6 +6,9 @@
 {% endblock %}
 {% block body %}
     <h2 style="text-align: center">Gérer les campus</h2>
+    {%if exception == true %}
+        <p style ="color: red">Impossible de supprimer le campus car une sortie y est organisée.</p>
+    {% endif %}
         <div>
             <h3>Le nom du Campus contient : </h3>
             {{ form_start(campusform) }}

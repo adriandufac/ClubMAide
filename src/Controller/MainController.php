@@ -18,6 +18,7 @@ use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use DateTime;
 use DateTimeZone;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Container\ContainerInterface;
@@ -130,6 +131,10 @@ class MainController extends AbstractController
 
     public function gestioncampus(CampusRepository  $campusRepository, Request $request,EntityManagerInterface $entityManager): Response
     {
+        $exception =false;
+        if ($request->query->get('exception') == true){
+            $exception =true;
+        }
         $campus = new Campus();
         $campus2 = new Campus();
 
@@ -157,7 +162,7 @@ class MainController extends AbstractController
             return $this->redirectToRoute('campus_gestion');
         }
 
-        return $this->render('main/gestioncampus.html.twig',["campus" => $campus,'campusform' =>$campusform->createView(), 'campusform2' =>$campusform2->createView()]);
+        return $this->render('main/gestioncampus.html.twig',["campus" => $campus,'campusform' =>$campusform->createView(), 'campusform2' =>$campusform2->createView(),'exception'=>$exception]);
     }
 
     /**
@@ -193,9 +198,16 @@ class MainController extends AbstractController
 
     public function deletecampus(int $id,CampusRepository $campusRepository,EntityManagerInterface $entityManager): Response
     {
-        $entityManager->remove($campusRepository->find($id));
-        $entityManager->flush();
-        return $this->redirectToRoute('campus_gestion');
+
+        try{
+            $entityManager->remove($campusRepository->find($id));
+            $entityManager->flush();
+        }
+        catch(ForeignKeyConstraintViolationException $e){
+            return $this->redirectToRoute('campus_gestion',['exception'=>true]);
+        }
+
+        return $this->redirectToRoute('campus_gestion',['exception'=>false]);
     }
 
     /**
