@@ -12,7 +12,7 @@
 {% block body %}
     <div class="infos">
         <div class="utilisateur">Participant : <p id="utilisateur">{{ app.user.pseudo }}</p></div>
-        <div class="dateDuJour">Date du jour : <p id="dateDuJour"> {{ "now"|date("d/m/Y H:i") }}</div>
+        <div class="dateDuJour">Date du jour : <p id="dateDuJour"> {{ "now+2"|date("d/m/Y H:i") }}</div>
     </div>
 
 <div class="container">
@@ -73,7 +73,7 @@
             <div class="nom-responsive">
                 <h2>Nom de la sortie</h2>
                 {% for sortie in sorties %}
-                    <div class="name" campus="{{ sortie.getCampus.getId }}">
+                    <div class="name-responsive" campus="{{ sortie.getCampus.getId }}">
                         <a href="{{path('sortie_show', {'id': sortie.id}) }}">{{ sortie.nom }}</a>
                     </div>
                 {% endfor %}

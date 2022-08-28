@@ -29,7 +29,7 @@ let isInscrit = document.getElementById('accueil_filtrage_form_isInscrit');
 let isPasInscrit = document.getElementById('accueil_filtrage_form_isPasInscrit');
 let isPassees = document.getElementById('accueil_filtrage_form_sortiesPassees');
 
-let search = document.getElementById('accueil_filtrage_form_nom_sortie');trine
+let search = document.getElementById('accueil_filtrage_form_nom_sortie');
 let campusBar = document.getElementById('accueil_filtrage_form_campus');
 let dateRechercheDebut = document.getElementById('accueil_filtrage_form_date_debut');
 let dateRechercheFin = document.getElementById('accueil_filtrage_form_date_fin');
@@ -294,6 +294,7 @@ function virerLigne(i) {
 
 // AFFICHAGE
 function flexAll(i){
+    console.log('flex all de ' + i);
     names[i].style.display = 'flex';
     dates[i].style.display = 'flex';
     clotures[i].style.display = 'flex';
