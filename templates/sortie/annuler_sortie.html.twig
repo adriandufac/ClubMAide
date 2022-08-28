@@ -36,7 +36,7 @@
             {{ form_widget(form) }}
         <div class="buttons">
             <input type="submit" value="Enregister" class="enregister" />
-            <input type="reset" value="Annuler" class="annuler" />
+            <a href="{{ path('main_page') }}" class="annuler" />Annuler</a>
         </div>
 
             {{ form_end(form) }}

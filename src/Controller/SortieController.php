@@ -96,10 +96,12 @@ class SortieController extends AbstractController
         $sortie = $sortieRepository->find($id);
         $sortie->setInfosSortie('');
         $form = $this->createForm(AnnulerSortieType::class, $sortie);
+
+        
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-           // $sortie->setInfosSortie($form->getData());
+
             $entityManager->persist($sortie);
             $entityManager->flush();
             return $this->redirectToRoute('annulation_sortie',['id'=>$id]);
